@@ -1,1 +1,5 @@
-<Solution />
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/Huntly.Core/Huntly.Core.csproj" />
+  </Folder>
+</Solution>
