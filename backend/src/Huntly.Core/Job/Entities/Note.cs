@@ -4,8 +4,8 @@ namespace Huntly.Core.Job.Entities;
 
 public sealed class Note : AuditableEntity
 {
-    public Guid JobApplicationId { get; protected set; }
-    public string Content { get; protected set; }
+    public Guid JobApplicationId { get; private set; }
+    public string Content { get; private set; }
     
     private Note() {}
 
