@@ -5,7 +5,7 @@ using Huntly.Core.Shared.Exceptions;
 
 namespace Huntly.Core.Job.Entities;
 
-public class JobApplication : AuditableEntity
+public sealed class JobApplication : AuditableEntity
 {
     public Guid UserId { get; private set; }
     public CompanyName CompanyName { get; private set; }
