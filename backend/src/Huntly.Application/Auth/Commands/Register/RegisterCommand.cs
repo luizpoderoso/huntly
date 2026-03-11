@@ -6,5 +6,7 @@ namespace Huntly.Application.Auth.Commands.Register;
 public record RegisterCommand(
     string FullName,
     string Email,
-    string Password
+    string Username,
+    string Password,
+    string ConfirmPassword
 ) : IRequest<TokenResponseDto>;
