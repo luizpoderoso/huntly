@@ -10,14 +10,14 @@ public sealed class User : IdentityUser<Guid>
 
     private User() { }
 
-    public static User Create(string fullName, string email)
+    public static User Create(string fullName, string email, string username)
     {
         return new User
         {
             Id = Guid.CreateVersion7(),
             FullName = fullName,
             Email = email,
-            UserName = email
+            UserName = username
         };
     }
 
