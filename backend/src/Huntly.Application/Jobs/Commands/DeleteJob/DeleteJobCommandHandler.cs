@@ -18,7 +18,7 @@ public class DeleteJobCommandHandler(
         if (job is null || job.UserId != userContext.UserId)
             throw new NotFoundException("Job application not found.");
         
-        await repository.DeleteAsync(job, ct);
+        repository.Remove(job);
         await atomicWork.CommitAsync(ct);
     }
 }
