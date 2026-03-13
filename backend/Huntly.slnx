@@ -2,5 +2,6 @@
   <Folder Name="/src/">
     <Project Path="src/Huntly.Application/Huntly.Application.csproj" />
     <Project Path="src/Huntly.Core/Huntly.Core.csproj" />
+    <Project Path="src/Huntly.Infra/Huntly.Infra.csproj" />
   </Folder>
 </Solution>
