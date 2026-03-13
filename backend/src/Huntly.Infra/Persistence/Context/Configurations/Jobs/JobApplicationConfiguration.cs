@@ -10,12 +10,10 @@ public class JobApplicationConfiguration : IEntityTypeConfiguration<JobApplicati
     {
         builder.OwnsOne(j => j.CompanyName, vo =>
             vo.Property(x => x.Value)
-                .IsRequired()
                 .HasMaxLength(200));
 
         builder.OwnsOne(j => j.Position, vo =>
             vo.Property(x => x.Value)
-                .IsRequired()
                 .HasMaxLength(200));
 
         builder.OwnsOne(j => j.JobUrl, vo =>
@@ -30,7 +28,6 @@ public class JobApplicationConfiguration : IEntityTypeConfiguration<JobApplicati
         });
 
         builder.Property(j => j.Status)
-            .HasConversion<string>()
-            .IsRequired();
+            .HasConversion<string>();
     }
 }

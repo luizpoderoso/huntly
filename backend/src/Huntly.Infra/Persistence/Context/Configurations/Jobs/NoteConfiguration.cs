@@ -8,7 +8,6 @@ public class NoteConfiguration : IEntityTypeConfiguration<Note>
 {
     public void Configure(EntityTypeBuilder<Note> builder)
     {
-        builder.Property(n => n.Content)
-            .IsRequired();
+        
     }
 }

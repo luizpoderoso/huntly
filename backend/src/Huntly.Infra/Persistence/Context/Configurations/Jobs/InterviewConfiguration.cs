@@ -9,11 +9,9 @@ public class InterviewConfiguration : IEntityTypeConfiguration<Interview>
     public void Configure(EntityTypeBuilder<Interview> builder)
     {
         builder.Property(i => i.Type)
-            .HasConversion<string>()
-            .IsRequired();
+            .HasConversion<string>();
 
         builder.Property(i => i.Outcome)
-            .HasConversion<string>()
-            .IsRequired();
+            .HasConversion<string>();
     }
 }
