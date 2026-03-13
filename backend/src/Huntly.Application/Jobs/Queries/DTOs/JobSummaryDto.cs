@@ -1,4 +1,4 @@
-namespace Huntly.Application.Jobs.Queries.GetAllJobs;
+namespace Huntly.Application.Jobs.Queries.DTOs;
 
 public record JobSummaryDto(
     Guid Id,

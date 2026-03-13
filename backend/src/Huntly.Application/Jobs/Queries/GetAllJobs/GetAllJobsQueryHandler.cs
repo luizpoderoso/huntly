@@ -1,3 +1,4 @@
+using Huntly.Application.Jobs.Queries.DTOs;
 using Huntly.Application.Shared.Interfaces;
 using Huntly.Core.Job.Repositories;
 using MediatR;
