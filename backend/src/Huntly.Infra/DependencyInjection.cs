@@ -7,6 +7,7 @@ using Huntly.Infra.Persistence.Context;
 using Huntly.Infra.Persistence.Repositories.Jobs;
 using Huntly.Infra.Security;
 using Huntly.Infra.Security.Options;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -19,15 +20,23 @@ public static class DependencyInjection
         this IServiceCollection services,
         IConfiguration configuration)
     {
+        // 1. DB
         services.AddDbContext<AppDbContext>(options =>
             options.UseNpgsql(configuration.GetConnectionString("Default"))
                 .UseSnakeCaseNamingConvention());
 
+        // 2. Identity
+        // 2.1 Identity Password Hasher
+        services.AddScoped<IPasswordHasher<User>, Argon2PasswordHasher>();
+        // 2.2 Identity Core
         services.AddIdentityCore<User>()
             .AddEntityFrameworkStores<AppDbContext>();
 
+        // 3. Options
         services.Configure<JwtOptions>(configuration.GetSection("Jwt"));
+        services.Configure<AuthOptions>(configuration.GetSection("Auth"));
 
+        // 4. Repositories
         services.AddScoped<IJobApplicationRepository, JobApplicationRepository>();
         services.AddScoped<IAtomicWork, AtomicWork>();
         services.AddScoped<ITokenService, TokenService>();
