@@ -1,8 +1,8 @@
-using Huntly.Core.Job.Enums;
+using Huntly.Core.Jobs.Enums;
 using Huntly.Core.Shared.Entities;
 using Huntly.Core.Shared.Exceptions;
 
-namespace Huntly.Core.Job.Entities;
+namespace Huntly.Core.Jobs.Entities;
 
 public sealed class Interview : AuditableEntity
 {

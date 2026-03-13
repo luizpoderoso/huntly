@@ -1,6 +1,6 @@
 using System.Reflection;
 using Huntly.Core.Auth.Entities;
-using Huntly.Core.Job.Entities;
+using Huntly.Core.Jobs.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;

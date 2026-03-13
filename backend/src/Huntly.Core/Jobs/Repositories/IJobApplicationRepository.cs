@@ -1,6 +1,6 @@
-using Huntly.Core.Job.Entities;
+using Huntly.Core.Jobs.Entities;
 
-namespace Huntly.Core.Job.Repositories;
+namespace Huntly.Core.Jobs.Repositories;
 
 public interface IJobApplicationRepository
 {

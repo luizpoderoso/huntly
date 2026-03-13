@@ -1,4 +1,4 @@
-using Huntly.Core.Job.Enums;
+using Huntly.Core.Jobs.Enums;
 using MediatR;
 
 namespace Huntly.Application.Jobs.Commands.UpdateJobStatus;

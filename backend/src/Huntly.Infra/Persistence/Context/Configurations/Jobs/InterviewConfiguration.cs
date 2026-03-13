@@ -1,4 +1,4 @@
-using Huntly.Core.Job.Entities;
+using Huntly.Core.Jobs.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

@@ -1,5 +1,5 @@
-using Huntly.Core.Job.Entities;
-using Huntly.Core.Job.Repositories;
+using Huntly.Core.Jobs.Entities;
+using Huntly.Core.Jobs.Repositories;
 using Huntly.Infra.Persistence.Context;
 using Microsoft.EntityFrameworkCore;
 

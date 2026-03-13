@@ -1,6 +1,6 @@
 using Huntly.Application.Shared.Exceptions;
 using Huntly.Application.Shared.Interfaces;
-using Huntly.Core.Job.Repositories;
+using Huntly.Core.Jobs.Repositories;
 using MediatR;
 
 namespace Huntly.Application.Jobs.Commands.DeleteJob;
