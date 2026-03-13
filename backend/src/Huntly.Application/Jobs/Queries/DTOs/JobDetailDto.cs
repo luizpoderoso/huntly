@@ -1,0 +1,16 @@
+namespace Huntly.Application.Jobs.Queries.DTOs;
+
+public record JobDetailDto(
+    Guid Id,
+    string CompanyName,
+    string Position,
+    string Status,
+    string? JobUrl,
+    decimal? SalaryMin,
+    decimal? SalaryMax,
+    string? SalaryCurrency,
+    DateTime CreatedAt,
+    DateTime UpdatedAt,
+    IReadOnlyCollection<InterviewDto> Interviews,
+    IReadOnlyCollection<NoteDto> Notes
+);
