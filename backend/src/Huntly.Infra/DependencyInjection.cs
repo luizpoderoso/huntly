@@ -29,7 +29,15 @@ public static class DependencyInjection
         // 2.1 Identity Password Hasher
         services.AddScoped<IPasswordHasher<User>, Argon2PasswordHasher>();
         // 2.2 Identity Core
-        services.AddIdentityCore<User>()
+        services.AddIdentityCore<User>(options =>
+            {
+                options.User.RequireUniqueEmail = true;
+                options.Password.RequireDigit = false;
+                options.Password.RequiredLength = 1;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireUppercase = false;
+                options.Password.RequireLowercase = false;
+            })
             .AddEntityFrameworkStores<AppDbContext>();
 
         // 3. Options
