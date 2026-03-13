@@ -1,4 +1,4 @@
-namespace Huntly.Infra.Security;
+namespace Huntly.Infra.Security.Options;
 
 public class AuthOptions
 {

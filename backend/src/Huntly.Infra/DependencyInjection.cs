@@ -6,6 +6,7 @@ using Huntly.Infra.Persistence;
 using Huntly.Infra.Persistence.Context;
 using Huntly.Infra.Persistence.Repositories.Jobs;
 using Huntly.Infra.Security;
+using Huntly.Infra.Security.Options;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;

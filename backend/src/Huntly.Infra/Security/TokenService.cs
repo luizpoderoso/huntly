@@ -3,6 +3,7 @@ using System.Security.Claims;
 using System.Text;
 using Huntly.Application.Auth.Interfaces;
 using Huntly.Core.Auth.Entities;
+using Huntly.Infra.Security.Options;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 
