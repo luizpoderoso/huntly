@@ -6,9 +6,6 @@ public class UpdateJobStatusCommandValidator : AbstractValidator<UpdateJobStatus
 {
     public UpdateJobStatusCommandValidator()
     {
-        RuleFor(x => x.JobId)
-            .NotEmpty().WithMessage("Job ID is required.");
-        
         RuleFor(x => x.NewStatus)
             .IsInEnum().WithMessage("Job status is invalid.");
     }
