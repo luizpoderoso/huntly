@@ -10,7 +10,7 @@ public class GetAllJobsQueryHandler(
     IUserContext userContext)
     : IRequestHandler<GetAllJobsQuery, IReadOnlyCollection<JobSummaryDto>>
 {
-    public async Task<IReadOnlyCollection<JobSummaryDto>> Handle(GetAllJobsQuery request, CancellationToken ct)
+    public async Task<IReadOnlyCollection<JobSummaryDto>> Handle(GetAllJobsQuery query, CancellationToken ct)
     {
         var jobs = await repository.GetAllByUserIdAsync(userContext.UserId, ct);
 
