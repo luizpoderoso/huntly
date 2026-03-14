@@ -1,7 +1,7 @@
 using FluentValidation;
 using Huntly.Application.Shared.Exceptions;
 
-namespace Huntly.Api.Middlewares;
+namespace Huntly.Api.Middleware;
 
 public class ExceptionHandlingMiddleware(
     RequestDelegate next,

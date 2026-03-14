@@ -1,6 +1,6 @@
 using FastEndpoints;
 using FastEndpoints.Security;
-using Huntly.Api.Middlewares;
+using Huntly.Api.Middleware;
 using Huntly.Application;
 using Huntly.Infra;
 

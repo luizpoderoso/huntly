@@ -2,7 +2,7 @@ using System.Security.Claims;
 using Huntly.Application.Shared.Interfaces;
 using Huntly.Infra.Security;
 
-namespace Huntly.Api.Middlewares;
+namespace Huntly.Api.Middleware;
 
 public class UserContextMiddleware(RequestDelegate next)
 {
