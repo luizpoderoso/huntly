@@ -21,6 +21,11 @@ public sealed class Note : AuditableEntity
 
     public void ChangeContent(string content)
     {
+        if (string.IsNullOrWhiteSpace(content))
+            throw new ArgumentException("Note content cannot be empty.");
+        if (content.Length > 2000)
+            throw new ArgumentException("Note content cannot exceed 2000 characters.");
+        
         Content = content;
         UpdateTimestamp();
     }
