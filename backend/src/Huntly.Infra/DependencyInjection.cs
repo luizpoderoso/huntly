@@ -16,7 +16,7 @@ namespace Huntly.Infra;
 
 public static class DependencyInjection
 {
-    public static IServiceCollection AddInfra(
+    public static IServiceCollection AddInfrastructure(
         this IServiceCollection services,
         IConfiguration configuration)
     {
