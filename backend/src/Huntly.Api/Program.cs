@@ -26,6 +26,6 @@ app.UseAuthentication();
 app.UseMiddleware<UserContextMiddleware>();
 app.UseAuthorization();
 app.UseCors();
-app.UseFastEndpoints();
+app.UseFastEndpoints(c => c.Endpoints.RoutePrefix = "api");
 
 app.Run();
