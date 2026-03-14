@@ -31,6 +31,7 @@ public class JobApplicationConfiguration : IEntityTypeConfiguration<JobApplicati
         });
 
         builder.Property(j => j.Status)
+            .HasMaxLength(50)
             .HasConversion<string>();
     }
 }
