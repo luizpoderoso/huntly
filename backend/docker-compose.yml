@@ -1,7 +1,8 @@
+name: huntly_container
 services:
   db:
     image: postgres:17-alpine
-    container_name: huntly-container
+    container_name: huntly
     environment:
       - POSTGRES_USER=admin
       - POSTGRES_PASSWORD=huntly_pass
