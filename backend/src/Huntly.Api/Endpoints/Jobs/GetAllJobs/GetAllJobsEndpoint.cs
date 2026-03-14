@@ -1,0 +1,22 @@
+using FastEndpoints;
+using Huntly.Application.Jobs.Queries.DTOs;
+using Huntly.Application.Jobs.Queries.GetAllJobs;
+using MediatR;
+
+namespace Huntly.Api.Endpoints.Jobs.GetAllJobs;
+
+public class GetAllJobsEndpoint(IMediator mediator) : EndpointWithoutRequest<IReadOnlyCollection<JobSummaryDto>>
+{
+    public override void Configure()
+    {
+        Get("/");
+        Group<JobsGroup>();
+    }
+
+    public override async Task HandleAsync(CancellationToken ct)
+    {
+        var query = new GetAllJobsQuery();
+        var result = await mediator.Send(query, ct);
+        await Send.OkAsync(result, ct);
+    }
+}
