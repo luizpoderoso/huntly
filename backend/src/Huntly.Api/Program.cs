@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using FastEndpoints;
 using FastEndpoints.Security;
 using Huntly.Api.Middleware;
@@ -26,6 +27,10 @@ app.UseAuthentication();
 app.UseMiddleware<UserContextMiddleware>();
 app.UseAuthorization();
 app.UseCors();
-app.UseFastEndpoints(c => c.Endpoints.RoutePrefix = "api");
+app.UseFastEndpoints(c =>
+{
+    c.Endpoints.RoutePrefix = "api";
+    c.Serializer.Options.Converters.Add(new JsonStringEnumConverter());
+});
 
 app.Run();
