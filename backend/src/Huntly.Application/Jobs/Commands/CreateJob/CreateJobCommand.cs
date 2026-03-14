@@ -8,5 +8,5 @@ public record CreateJobCommand(
     string? JobUrl,
     decimal? SalaryMin,
     decimal? SalaryMax,
-    string SalaryCurrency = "USD"
+    string? SalaryCurrency = "USD"
 ) : IRequest<Guid>;
