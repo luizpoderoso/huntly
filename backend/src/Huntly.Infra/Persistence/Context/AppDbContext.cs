@@ -10,6 +10,8 @@ namespace Huntly.Infra.Persistence.Context;
 public class AppDbContext(DbContextOptions<AppDbContext> options) :  IdentityDbContext<User, IdentityRole<Guid>, Guid>(options)
 {
     public DbSet<JobApplication> JobApplications => Set<JobApplication>();
+    public DbSet<Interview> Interviews => Set<Interview>();
+    public DbSet<Note> Notes => Set<Note>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
