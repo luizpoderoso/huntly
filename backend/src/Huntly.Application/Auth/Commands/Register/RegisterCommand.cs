@@ -1,0 +1,12 @@
+using Huntly.Application.Auth.DTOs;
+using MediatR;
+
+namespace Huntly.Application.Auth.Commands.Register;
+
+public record RegisterCommand(
+    string FullName,
+    string Username,
+    string Email,
+    string Password,
+    string ConfirmPassword
+) : IRequest<TokenResponseDto>;
