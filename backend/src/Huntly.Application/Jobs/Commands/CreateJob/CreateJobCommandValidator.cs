@@ -28,5 +28,10 @@ public class CreateJobCommandValidator : AbstractValidator<CreateJobCommand>
             .GreaterThanOrEqualTo(x => x.SalaryMin!.Value)
             .WithMessage("Maximum salary cannot be less than minimum.")
             .When(x => x.SalaryMin.HasValue && x.SalaryMax.HasValue);
+        
+        RuleFor(x => x.SalaryCurrency)
+            .MaximumLength(3).WithMessage("Currency code cannot exceed 3 characters.")
+            .Matches("^[A-Z]{3}$").WithMessage("Currency code must be a 3-letter ISO code (e.g. USD, BRL).")
+            .When(x => x.SalaryCurrency is not null);
     }
 }
