@@ -3,9 +3,9 @@ using Huntly.Application.Jobs.Queries.DTOs;
 using Huntly.Application.Jobs.Queries.GetAllJobs;
 using MediatR;
 
-namespace Huntly.Api.Endpoints.Jobs.GetAllJobs;
+namespace Huntly.Api.Endpoints.Jobs.GetJobs;
 
-public class GetAllJobsEndpoint(IMediator mediator) : EndpointWithoutRequest<IReadOnlyCollection<JobSummaryDto>>
+public class GetJobsEndpoint(IMediator mediator) : EndpointWithoutRequest<IReadOnlyCollection<JobSummaryDto>>
 {
     public override void Configure()
     {
