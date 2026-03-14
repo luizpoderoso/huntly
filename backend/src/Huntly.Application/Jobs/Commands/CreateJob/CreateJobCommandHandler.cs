@@ -1,7 +1,7 @@
 using Huntly.Application.Shared.Interfaces;
-using Huntly.Core.Job.Entities;
-using Huntly.Core.Job.Repositories;
-using Huntly.Core.Job.ValueObjects;
+using Huntly.Core.Jobs.Entities;
+using Huntly.Core.Jobs.Repositories;
+using Huntly.Core.Jobs.ValueObjects;
 using MediatR;
 
 namespace Huntly.Application.Jobs.Commands.CreateJob;

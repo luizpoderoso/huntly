@@ -1,6 +1,6 @@
 using Huntly.Core.Shared.Entities;
 
-namespace Huntly.Core.Job.Entities;
+namespace Huntly.Core.Jobs.Entities;
 
 public sealed class Note : AuditableEntity
 {

@@ -1,4 +1,4 @@
-namespace Huntly.Core.Job.Enums;
+namespace Huntly.Core.Jobs.Enums;
 
 public enum ApplicationStatus
 {

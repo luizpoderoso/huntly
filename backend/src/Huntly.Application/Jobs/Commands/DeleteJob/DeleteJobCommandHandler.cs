@@ -1,6 +1,6 @@
 using Huntly.Application.Shared.Exceptions;
 using Huntly.Application.Shared.Interfaces;
-using Huntly.Core.Job.Repositories;
+using Huntly.Core.Jobs.Repositories;
 using MediatR;
 
 namespace Huntly.Application.Jobs.Commands.DeleteJob;
@@ -18,7 +18,7 @@ public class DeleteJobCommandHandler(
         if (job is null || job.UserId != userContext.UserId)
             throw new NotFoundException("Job application not found.");
         
-        await repository.DeleteAsync(job, ct);
+        repository.Remove(job);
         await atomicWork.CommitAsync(ct);
     }
 }

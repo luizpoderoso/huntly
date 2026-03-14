@@ -1,9 +1,9 @@
-using Huntly.Core.Job.Enums;
-using Huntly.Core.Job.ValueObjects;
+using Huntly.Core.Jobs.Enums;
+using Huntly.Core.Jobs.ValueObjects;
 using Huntly.Core.Shared.Entities;
 using Huntly.Core.Shared.Exceptions;
 
-namespace Huntly.Core.Job.Entities;
+namespace Huntly.Core.Jobs.Entities;
 
 public sealed class JobApplication : AuditableEntity
 {

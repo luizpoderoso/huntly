@@ -1,4 +1,4 @@
-namespace Huntly.Core.Job.ValueObjects;
+namespace Huntly.Core.Jobs.ValueObjects;
 
 public sealed class Position
 {
