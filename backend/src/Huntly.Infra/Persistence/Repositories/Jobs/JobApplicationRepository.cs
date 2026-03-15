@@ -27,6 +27,16 @@ public class JobApplicationRepository(AppDbContext context) : IJobApplicationRep
         await context.JobApplications.AddAsync(jobApplication, ct);
     }
 
+    public async Task AddInterviewAsync(Interview interview, CancellationToken ct)
+    {
+        await context.Interviews.AddAsync(interview, ct);
+    }
+
+    public async Task AddNoteAsync(Note note, CancellationToken ct)
+    {
+        await context.Notes.AddAsync(note, ct);
+    }
+
     public void Remove(JobApplication jobApplication)
     {
         context.Remove(jobApplication);
