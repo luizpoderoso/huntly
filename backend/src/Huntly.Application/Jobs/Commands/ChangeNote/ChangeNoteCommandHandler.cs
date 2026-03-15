@@ -18,12 +18,10 @@ public class ChangeNoteCommandHandler(
         if (job == null || job.UserId != userContext.UserId)
             throw new NotFoundException("Job application not found.");
         
-        var note = job.Notes.FirstOrDefault(x => x.Id == command.NoteId);
-        
-        if (note == null)
+        var updated = job.ChangeNoteContent(command.NoteId, command.NewNoteContent);
+
+        if (!updated)
             throw new NotFoundException("Note not found.");
-        
-        note.ChangeContent(command.NewNoteContent);
 
         await atomicWork.CommitAsync(ct);
     }
