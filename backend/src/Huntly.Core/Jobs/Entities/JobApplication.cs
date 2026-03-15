@@ -72,6 +72,18 @@ public sealed class JobApplication : AuditableEntity
 
         return interview;
     }
+    
+    public bool RemoveInterview(Guid interviewId)
+    {
+        var interview = _interviews.FirstOrDefault(i => i.Id == interviewId);
+
+        if (interview is null)
+            return false;
+    
+        _interviews.Remove(interview);
+        UpdateTimestamp();
+        return true;
+    }
 
     public void AddNote(string content)
     {
