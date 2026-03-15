@@ -40,15 +40,14 @@ function createJobsStore() {
 
         async createJob(request: CreateJobRequest) {
             loading = true;
-            error = null;
             try {
                 const id = await jobsApi.createJob(request);
                 await this.fetchJobs();
                 toast.success('Job Application created.');
                 return id;
             } catch (e: unknown) {
-                error = (e as { error: string })?.error ?? 'Failed to create job application.';
-                toast.error(error);
+                const errorMessage = (e as { error: string })?.error ?? 'Failed to create job application.';
+                toast.error(errorMessage);
                 throw e;
             } finally {
                 loading = false;
@@ -56,7 +55,6 @@ function createJobsStore() {
         },
 
         async updateJobStatus(id: string, newStatus: ApplicationStatus) {
-            error = null;
             try {
                 await jobsApi.updateJobStatus(id, { newStatus });
                 // Optimistic update — no need to refetch the whole list
@@ -68,8 +66,8 @@ function createJobsStore() {
                 }
                 toast.success('Job Application status updated.');
             } catch (e: unknown) {
-                error = (e as { error: string })?.error ?? 'Failed to update status.';
-                toast.error(error);
+                const errorMessage = (e as { error: string })?.error ?? 'Failed to update status.';
+                toast.error(errorMessage);
                 throw e;
             }
         },
@@ -82,8 +80,8 @@ function createJobsStore() {
                 if (selectedJob?.id === id) selectedJob = null;
                 toast.success('Job Application deleted.');
             } catch (e: unknown) {
-                error = (e as { error: string })?.error ?? 'Failed to delete job.';
-                toast.error(error);
+                const errorMessage = (e as { error: string })?.error ?? 'Failed to delete job application.';
+                toast.error(errorMessage);
                 throw e;
             }
         }
