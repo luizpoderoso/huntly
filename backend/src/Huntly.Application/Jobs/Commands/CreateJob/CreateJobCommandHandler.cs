@@ -1,3 +1,4 @@
+using Huntly.Application.Shared.DTOs.Jobs;
 using Huntly.Application.Shared.Interfaces;
 using Huntly.Core.Jobs.Entities;
 using Huntly.Core.Jobs.Repositories;
@@ -10,9 +11,9 @@ public class CreateJobCommandHandler(
     IJobApplicationRepository repository,
     IAtomicWork atomicWork,
     IUserContext userContext)
-    : IRequestHandler<CreateJobCommand, Guid>
+    : IRequestHandler<CreateJobCommand, JobSummaryDto>
 {
-    public async Task<Guid> Handle(CreateJobCommand command, CancellationToken ct)
+    public async Task<JobSummaryDto> Handle(CreateJobCommand command, CancellationToken ct)
     {
         var job = JobApplication.Create(
             userId: userContext.UserId,
@@ -27,6 +28,13 @@ public class CreateJobCommandHandler(
         await repository.AddAsync(job, ct);
         await atomicWork.CommitAsync(ct);
 
-        return job.Id;
+        return new JobSummaryDto(
+            job.Id, 
+            job.CompanyName.Value, 
+            job.Position.Value, 
+            job.Status.ToString(),
+            job.JobUrl?.Value,
+            job.CreatedAt, 
+            job.UpdatedAt);
     }
 }
