@@ -1,3 +1,4 @@
+using Huntly.Application.Shared.DTOs.Jobs;
 using Huntly.Core.Jobs.Enums;
 using MediatR;
 
@@ -8,4 +9,4 @@ public record AddInterviewCommand(
     InterviewType InterviewType,
     DateTime ScheduledAt,
     string? InterviewNotes
-) : IRequest<Guid>;
+) : IRequest<InterviewDto>;

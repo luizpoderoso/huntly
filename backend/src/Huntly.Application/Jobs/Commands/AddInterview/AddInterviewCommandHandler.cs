@@ -1,3 +1,4 @@
+using Huntly.Application.Shared.DTOs.Jobs;
 using Huntly.Application.Shared.Exceptions;
 using Huntly.Application.Shared.Interfaces;
 using Huntly.Core.Jobs.Repositories;
@@ -9,9 +10,9 @@ public class AddInterviewCommandHandler(
     IJobApplicationRepository repository,
     IUserContext userContext,
     IAtomicWork atomicWork)
-    : IRequestHandler<AddInterviewCommand, Guid>
+    : IRequestHandler<AddInterviewCommand, InterviewDto>
 {
-    public async Task<Guid> Handle(AddInterviewCommand command, CancellationToken ct)
+    public async Task<InterviewDto> Handle(AddInterviewCommand command, CancellationToken ct)
     {
         var job = await repository.GetByIdAsync(command.JobApplicationId, ct);
         
@@ -22,6 +23,12 @@ public class AddInterviewCommandHandler(
 
         await atomicWork.CommitAsync(ct);
 
-        return interview.Id;
+        return new InterviewDto(
+            interview.Id,
+            interview.Type.ToString(),
+            interview.ScheduledAt,
+            interview.Outcome.ToString(),
+            interview.Notes
+        );
     }
 }
