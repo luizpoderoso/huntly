@@ -41,10 +41,10 @@ function createJobsStore() {
         async createJob(request: CreateJobRequest) {
             loading = true;
             try {
-                const id = await jobsApi.createJob(request);
-                await this.fetchJobs();
+                const newJob = await jobsApi.createJob(request);
+                jobs = [...jobs, newJob];
                 toast.success('Job Application created.');
-                return id;
+                return newJob;
             } catch (e: unknown) {
                 const errorMessage = (e as { error: string })?.error ?? 'Failed to create job application.';
                 toast.error(errorMessage);
