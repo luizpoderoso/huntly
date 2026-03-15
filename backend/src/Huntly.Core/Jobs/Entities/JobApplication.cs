@@ -60,13 +60,17 @@ public sealed class JobApplication : AuditableEntity
         UpdateTimestamp();
     }
     
-    public void AddInterview(InterviewType type, DateTime scheduledAt, string? interviewNotes)
+    public Interview AddInterview(InterviewType type, DateTime scheduledAt, string? interviewNotes)
     {
         if (Status == ApplicationStatus.Rejected || Status == ApplicationStatus.Withdrawn)
             throw new DomainException("Cannot add an interview to a closed application.");
 
-        _interviews.Add(Interview.Create(type, scheduledAt, interviewNotes));
+        var interview = Interview.Create(type, scheduledAt, interviewNotes);
+
+        _interviews.Add(interview);
         UpdateTimestamp();
+
+        return interview;
     }
 
     public void AddNote(string content)
