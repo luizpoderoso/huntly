@@ -1,6 +1,6 @@
 using FastEndpoints;
-using Huntly.Application.Jobs.Queries.DTOs;
 using Huntly.Application.Jobs.Queries.GetJobById;
+using Huntly.Application.Shared.DTOs.Jobs;
 using MediatR;
 
 namespace Huntly.Api.Endpoints.Jobs.GetJob;
