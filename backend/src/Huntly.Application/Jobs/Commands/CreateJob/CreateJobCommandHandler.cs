@@ -21,7 +21,7 @@ public class CreateJobCommandHandler(
             position: new Position(command.Position),
             jobUrl: command.JobUrl is not null ? new JobUrl(command.JobUrl) : null,
             salaryRange: command.SalaryMin.HasValue
-                ? new SalaryRange(command.SalaryMin.Value, command.SalaryMax!.Value, command.SalaryCurrency)
+                ? new SalaryRange(command.SalaryMin.Value, command.SalaryMax!.Value, command.SalaryCurrency ?? "USD")
                 : null
         );
 
