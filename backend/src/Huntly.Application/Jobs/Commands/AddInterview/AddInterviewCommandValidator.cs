@@ -14,6 +14,6 @@ public class AddInterviewCommandValidator : AbstractValidator<AddInterviewComman
         
         RuleFor(x => x.ScheduledAt)
             .NotEmpty().WithMessage("Interview schedule is required.")
-            .GreaterThan(DateTime.UtcNow).WithMessage("Interview must be scheduled in the future.");;
+            .GreaterThan(_ => DateTime.UtcNow).WithMessage("Interview must be scheduled in the future.");;
     }
 }
