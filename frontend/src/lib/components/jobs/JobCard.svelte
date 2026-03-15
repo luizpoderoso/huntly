@@ -7,9 +7,9 @@
     let { job }: { job: JobSummary } = $props();
 </script>
 
-<a href={resolve(`/dashboard/${job.id}`)}>
-    <Card.Root class="hover:bg-accent transition-colors cursor-pointer">
-        <Card.Header>
+<a href={resolve(`/dashboard/${job.id}`)} class="h-full">
+    <Card.Root class="hover:bg-accent transition-colors cursor-pointer h-full flex flex-col">
+        <Card.Header class="flex-1">
             <div class="flex items-start justify-between gap-2">
                 <div class="flex flex-col gap-1">
                     <Card.Title class="text-base">{job.companyName}</Card.Title>
