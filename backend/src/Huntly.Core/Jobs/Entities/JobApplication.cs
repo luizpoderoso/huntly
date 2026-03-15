@@ -104,4 +104,16 @@ public sealed class JobApplication : AuditableEntity
         UpdateTimestamp();
         return note;
     }
+
+    public bool RemoveNote(Guid noteId)
+    {
+        var note = _notes.FirstOrDefault(n => n.Id == noteId);
+
+        if (note is null)
+            return false;
+
+        _notes.Remove(note);
+        UpdateTimestamp();
+        return true;
+    }
 }
