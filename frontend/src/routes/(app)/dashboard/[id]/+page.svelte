@@ -8,6 +8,7 @@
 	import * as Select from '$lib/components/ui/select';
 	import type { ApplicationStatus } from '$lib/types/jobs';
 	import * as AlertDialog from '$lib/components/ui/alert-dialog';
+	import { Skeleton } from '$lib/components/ui/skeleton';
 
 	const id = page.params.id;
 
@@ -47,7 +48,25 @@
 </script>
 
 {#if jobsStore.loading}
-	<p class="text-sm text-muted-foreground">Loading...</p>
+	<div class="flex max-w-2xl flex-col gap-6">
+		<div class="flex items-start justify-between">
+			<div class="flex flex-col gap-2">
+				<Skeleton class="h-4 w-16" />
+				<Skeleton class="h-8 w-48" />
+				<Skeleton class="h-4 w-32" />
+			</div>
+			<Skeleton class="h-9 w-20" />
+		</div>
+		<div class="flex flex-col gap-4 rounded-lg border p-6">
+			<Skeleton class="h-5 w-16" />
+			{#each { length: 4 }, i (i)}
+				<div class="flex items-center gap-3">
+					<Skeleton class="h-4 w-24" />
+					<Skeleton class="h-4 w-48" />
+				</div>
+			{/each}
+		</div>
+	</div>
 {:else if jobsStore.error}
 	<p class="text-sm text-destructive">{jobsStore.error}</p>
 {:else if jobsStore.selectedJob}
