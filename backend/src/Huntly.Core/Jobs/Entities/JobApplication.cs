@@ -85,9 +85,11 @@ public sealed class JobApplication : AuditableEntity
         return true;
     }
 
-    public void AddNote(string content)
+    public Note AddNote(string content)
     {
-        _notes.Add(Note.Create(content));
+        var note = Note.Create(content);
+        _notes.Add(note);
         UpdateTimestamp();
+        return note;
     }
 }
