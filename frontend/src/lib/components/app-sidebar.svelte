@@ -3,10 +3,11 @@
     import { authStore } from '$lib/stores/auth.svelte';
     import * as Sidebar from '$lib/components/ui/sidebar';
     import { Separator } from '$lib/components/ui/separator';
+	import { goto } from '$app/navigation';
 
     function handleLogout() {
         authStore.logout();
-        window.location.href = resolve('/login');
+        goto(resolve('/login'));
     }
 </script>
 
