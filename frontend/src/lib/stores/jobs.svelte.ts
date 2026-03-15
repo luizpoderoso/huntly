@@ -1,5 +1,6 @@
 import type { JobSummary, JobDetail, CreateJobRequest, ApplicationStatus } from '$lib/types';
 import * as jobsApi from '$lib/api';
+import { toast } from 'svelte-sonner';
 
 function createJobsStore() {
     let jobs = $state<JobSummary[]>([]);
@@ -19,7 +20,7 @@ function createJobsStore() {
             try {
                 jobs = await jobsApi.getJobs();
             } catch (e: unknown) {
-                error = (e as { error: string })?.error ?? 'Failed to load jobs.';
+                error = (e as { error: string })?.error ?? 'Failed to load jobs application.';
             } finally {
                 loading = false;
             }
@@ -31,7 +32,7 @@ function createJobsStore() {
             try {
                 selectedJob = await jobsApi.getJob(id);
             } catch (e: unknown) {
-                error = (e as { error: string })?.error ?? 'Failed to load job.';
+                error = (e as { error: string })?.error ?? 'Failed to load job application.';
             } finally {
                 loading = false;
             }
@@ -43,9 +44,11 @@ function createJobsStore() {
             try {
                 const id = await jobsApi.createJob(request);
                 await this.fetchJobs();
+                toast.success('Job Application created.');
                 return id;
             } catch (e: unknown) {
-                error = (e as { error: string })?.error ?? 'Failed to create job.';
+                error = (e as { error: string })?.error ?? 'Failed to create job application.';
+                toast.error(error);
                 throw e;
             } finally {
                 loading = false;
@@ -63,8 +66,10 @@ function createJobsStore() {
                 if (selectedJob?.id === id) {
                     selectedJob = { ...selectedJob, status: newStatus };
                 }
+                toast.success('Job Application status updated.');
             } catch (e: unknown) {
                 error = (e as { error: string })?.error ?? 'Failed to update status.';
+                toast.error(error);
                 throw e;
             }
         },
@@ -75,8 +80,10 @@ function createJobsStore() {
                 await jobsApi.deleteJob(id);
                 jobs = jobs.filter(j => j.id !== id);
                 if (selectedJob?.id === id) selectedJob = null;
+                toast.success('Job Application deleted.');
             } catch (e: unknown) {
                 error = (e as { error: string })?.error ?? 'Failed to delete job.';
+                toast.error(error);
                 throw e;
             }
         }
