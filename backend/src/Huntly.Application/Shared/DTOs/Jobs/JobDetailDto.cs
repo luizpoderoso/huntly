@@ -1,4 +1,4 @@
-namespace Huntly.Application.Jobs.Queries.DTOs;
+namespace Huntly.Application.Shared.DTOs.Jobs;
 
 public record JobDetailDto(
     Guid Id,
