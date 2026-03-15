@@ -1,11 +1,12 @@
 using FastEndpoints;
 using Huntly.Application.Jobs.Commands.CreateJob;
+using Huntly.Application.Shared.DTOs.Jobs;
 using MediatR;
 
 namespace Huntly.Api.Endpoints.Jobs.CreateJob;
 
 public class CreateJobEndpoint(IMediator mediator)
-    : Endpoint<CreateJobRequest, Guid>
+    : Endpoint<CreateJobRequest, JobSummaryDto>
 {
     public override void Configure()
     {
@@ -23,7 +24,7 @@ public class CreateJobEndpoint(IMediator mediator)
             req.SalaryMax,
             req.SalaryCurrency);
 
-        var jobId = await mediator.Send(command, ct);
-        await Send.OkAsync(jobId, ct);
+        var jobSummaryDto = await mediator.Send(command, ct);
+        await Send.OkAsync(jobSummaryDto, ct);
     }
 }
