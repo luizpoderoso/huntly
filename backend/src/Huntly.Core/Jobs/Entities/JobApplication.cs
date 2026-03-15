@@ -85,6 +85,18 @@ public sealed class JobApplication : AuditableEntity
         return true;
     }
 
+    public bool RecordInterviewOutcome(Guid interviewId, InterviewOutcome newOutcome)
+    {
+        var interview = _interviews.FirstOrDefault(i => i.Id == interviewId);
+        
+        if (interview is null)
+            return false;
+        
+        interview.RecordOutcome(newOutcome);
+        UpdateTimestamp();
+        return true;
+    }
+
     public Note AddNote(string content)
     {
         var note = Note.Create(content);
