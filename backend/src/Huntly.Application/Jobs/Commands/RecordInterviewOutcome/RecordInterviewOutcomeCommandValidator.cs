@@ -1,4 +1,5 @@
 using FluentValidation;
+using Huntly.Core.Jobs.Enums;
 
 namespace Huntly.Application.Jobs.Commands.RecordInterviewOutcome;
 
@@ -13,6 +14,7 @@ public class RecordInterviewOutcomeCommandValidator : AbstractValidator<RecordIn
             .NotEmpty().WithMessage("Interview ID is required.");
         
         RuleFor(x => x.NewInterviewOutcome)
-            .IsInEnum().WithMessage("Interview outcome is invalid.");
+            .IsInEnum().WithMessage("Interview outcome is invalid.")
+            .NotEqual(InterviewOutcome.Pending).WithMessage("Cannot set outcome to Pending.");;
     }
 }
