@@ -17,13 +17,11 @@ public class RecordInterviewOutcomeCommandHandler(
         
         if (job is null || job.UserId != userContext.UserId)
             throw new NotFoundException("Job application not found.");
+
+        var updated = job.RecordInterviewOutcome(command.InterviewId, command.NewInterviewOutcome);
         
-        var interview = job.Interviews.FirstOrDefault(x => x.Id == command.InterviewId);
-        
-        if (interview is null)
+        if (!updated)
             throw new NotFoundException("Interview not found.");
-        
-        interview.RecordOutcome(command.NewInterviewOutcome);
 
         await atomicWork.CommitAsync(ct);
     }
