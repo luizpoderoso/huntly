@@ -20,6 +20,7 @@ public class AddInterviewCommandHandler(
             throw new NotFoundException("Job application not found.");
         
         var interview = job.AddInterview(command.InterviewType, command.ScheduledAt, command.InterviewNotes);
+        await repository.AddInterviewAsync(interview, ct);
 
         await atomicWork.CommitAsync(ct);
 
