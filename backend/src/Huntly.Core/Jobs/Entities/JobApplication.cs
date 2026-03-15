@@ -97,6 +97,18 @@ public sealed class JobApplication : AuditableEntity
         return true;
     }
 
+    public bool ChangeInterviewNotes(Guid interviewId, string newNotes)
+    {
+        var interview = _interviews.FirstOrDefault(i => i.Id == interviewId);
+        
+        if (interview is null)
+            return false;
+        
+        interview.ChangeNotes(newNotes);
+        UpdateTimestamp();
+        return true;
+    }
+
     public Note AddNote(string content)
     {
         var note = Note.Create(content);
