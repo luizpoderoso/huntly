@@ -19,7 +19,7 @@ export function getJob(id: string) {
 }
 
 export function createJob(request: CreateJobRequest) {
-    return apiFetch<string>('/jobs', {
+    return apiFetch<JobSummary>('/jobs', {
         method: 'POST',
         body: JSON.stringify(request),
         headers: authHeader()
