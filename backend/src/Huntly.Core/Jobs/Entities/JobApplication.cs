@@ -116,4 +116,16 @@ public sealed class JobApplication : AuditableEntity
         UpdateTimestamp();
         return true;
     }
+
+    public bool ChangeNoteContent(Guid noteId, string newContent)
+    {
+        var note = _notes.FirstOrDefault(n => n.Id == noteId);
+
+        if (note is null)
+            return false;
+
+        note.ChangeContent(newContent);
+        UpdateTimestamp();
+        return true;
+    }
 }
