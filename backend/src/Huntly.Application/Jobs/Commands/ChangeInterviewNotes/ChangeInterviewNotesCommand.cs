@@ -4,6 +4,6 @@ namespace Huntly.Application.Jobs.Commands.ChangeInterviewNotes;
 
 public record ChangeInterviewNotesCommand(
     Guid JobApplicationId,
-    Guid NoteId,
+    Guid InterviewId,
     string NewInterviewNotes
 ) : IRequest;

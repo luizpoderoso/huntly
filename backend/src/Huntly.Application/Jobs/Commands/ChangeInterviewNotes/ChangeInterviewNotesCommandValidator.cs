@@ -9,7 +9,7 @@ public class ChangeInterviewNotesCommandValidator : AbstractValidator<ChangeInte
         RuleFor(x => x.JobApplicationId)
             .NotEmpty().WithMessage("Job Application ID is required.");
         
-        RuleFor(x => x.NoteId)
-            .NotEmpty().WithMessage("Note ID is required.");
+        RuleFor(x => x.InterviewId)
+            .NotEmpty().WithMessage("Interview ID is required.");
     }
 }
