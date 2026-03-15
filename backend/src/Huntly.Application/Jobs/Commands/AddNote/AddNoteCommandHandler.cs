@@ -20,6 +20,7 @@ public class AddNoteCommandHandler(
             throw new NotFoundException("Job application not found.");
 
         var note = job.AddNote(command.NoteContent);
+        await repository.AddNoteAsync(note, ct);
 
         await atomicWork.CommitAsync(ct);
 
