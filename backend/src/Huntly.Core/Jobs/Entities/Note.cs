@@ -9,7 +9,7 @@ public sealed class Note : AuditableEntity
     
     private Note() {}
 
-    public static Note Create(string content)
+    internal static Note Create(string content)
     {
         if (string.IsNullOrWhiteSpace(content))
             throw new ArgumentException("Note content cannot be empty.");
