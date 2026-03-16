@@ -17,10 +17,29 @@ function createJobsStore() {
 	let selectedJob = $state<JobDetail | null>(null);
 	let loading = $state(false);
 	let error = $state<string | null>(null);
+	let search = $state('');
+	let statusFilter = $state<ApplicationStatus | 'All'>('All');
+
+	// Automatically recomputes when jobs, search, or statusFilter changes
+	const filteredJobs = $derived(
+		jobs.filter((j) => {
+			const matchesSearch =
+				search === '' ||
+				j.companyName.toLowerCase().includes(search.toLowerCase()) ||
+				j.position.toLowerCase().includes(search.toLowerCase());
+
+			const matchesStatus = statusFilter === 'All' || j.status === statusFilter;
+
+			return matchesSearch && matchesStatus;
+		})
+	);
 
 	return {
 		get jobs() {
 			return jobs;
+		},
+		get filteredJobs() {
+			return filteredJobs;
 		},
 		get selectedJob() {
 			return selectedJob;
@@ -30,6 +49,18 @@ function createJobsStore() {
 		},
 		get error() {
 			return error;
+		},
+		get search() {
+			return search;
+		},
+		get statusFilter() {
+			return statusFilter;
+		},
+		set search(value: string) {
+			search = value;
+		},
+		set statusFilter(value: ApplicationStatus | 'All') {
+			statusFilter = value;
 		},
 
 		async fetchJobs() {
