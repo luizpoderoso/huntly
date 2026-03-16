@@ -1,19 +1,15 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
-	import { page } from '$app/state';
-	import { resolve } from '$app/paths';
-	import { jobsStore } from '$lib/stores';
-	import { Button } from '$lib/components/ui/button';
-	import * as Card from '$lib/components/ui/card';
-	import * as Select from '$lib/components/ui/select';
-	import * as Tabs from '$lib/components/ui/tabs';
-	import * as AlertDialog from '$lib/components/ui/alert-dialog';
-	import { Skeleton } from '$lib/components/ui/skeleton';
-	import InterviewCard from '$lib/components/jobs/InterviewCard.svelte';
-	import NoteCard from '$lib/components/jobs/NoteCard.svelte';
-	import AddInterviewDialog from '$lib/components/jobs/AddInterviewDialog.svelte';
-	import AddNoteDialog from '$lib/components/jobs/AddNoteDialog.svelte';
-	import type { ApplicationStatus } from '$lib/types';
+	import { page } from "$app/state";
+	import { jobsStore, type ApplicationStatus } from "$lib";
+	import { InterviewCard, NoteCard, AddInterviewDialog, AddNoteDialog } from "$lib/components";
+	import { Skeleton } from "$lib/components/ui/skeleton";
+	import { resolve } from "$app/paths";
+	import { onMount } from "svelte";
+	import * as AlertDialog from "$lib/components/ui/alert-dialog";
+	import * as Card from "$lib/components/ui/card";
+	import * as Select from "$lib/components/ui/select";
+	import * as Tabs from "$lib/components/ui/tabs";
+	import { Button } from "$lib/components/ui/button";
 
 	const id = page.params.id ?? '';
 
