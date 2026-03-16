@@ -14,7 +14,7 @@ public sealed class Interview : AuditableEntity
     
     private Interview() {}
 
-    public static Interview Create(InterviewType type, DateTime scheduledAt, string? notes)
+    internal static Interview Create(InterviewType type, DateTime scheduledAt, string? notes)
     {
         if (scheduledAt < DateTime.UtcNow)
             throw new ArgumentException("Interview cannot be scheduled in the past.");
@@ -22,7 +22,7 @@ public sealed class Interview : AuditableEntity
         return new Interview { Type = type, ScheduledAt = scheduledAt, Notes = notes };
     }
     
-    public void RecordOutcome(InterviewOutcome outcome)
+    internal void RecordOutcome(InterviewOutcome outcome)
     {
         if (Outcome != InterviewOutcome.Pending)
             throw new DomainException("Outcome has already been recorded.");
@@ -31,7 +31,7 @@ public sealed class Interview : AuditableEntity
         UpdateTimestamp();
     }
 
-    public void ChangeNotes(string? notes)
+    internal void ChangeNotes(string? notes)
     {
         if (Notes == notes)
             throw new DomainException("Notes are the same.");

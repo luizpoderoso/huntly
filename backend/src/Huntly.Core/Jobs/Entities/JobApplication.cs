@@ -60,18 +60,84 @@ public sealed class JobApplication : AuditableEntity
         UpdateTimestamp();
     }
     
-    public void AddInterview(InterviewType type, DateTime scheduledAt, string? interviewNotes)
+    public Interview AddInterview(InterviewType type, DateTime scheduledAt, string? interviewNotes)
     {
         if (Status == ApplicationStatus.Rejected || Status == ApplicationStatus.Withdrawn)
             throw new DomainException("Cannot add an interview to a closed application.");
 
-        _interviews.Add(Interview.Create(type, scheduledAt, interviewNotes));
+        var interview = Interview.Create(type, scheduledAt, interviewNotes);
+
+        _interviews.Add(interview);
         UpdateTimestamp();
+
+        return interview;
+    }
+    
+    public bool RemoveInterview(Guid interviewId)
+    {
+        var interview = _interviews.FirstOrDefault(i => i.Id == interviewId);
+
+        if (interview is null)
+            return false;
+    
+        _interviews.Remove(interview);
+        UpdateTimestamp();
+        return true;
     }
 
-    public void AddNote(string content)
+    public bool RecordInterviewOutcome(Guid interviewId, InterviewOutcome newOutcome)
     {
-        _notes.Add(Note.Create(content));
+        var interview = _interviews.FirstOrDefault(i => i.Id == interviewId);
+        
+        if (interview is null)
+            return false;
+        
+        interview.RecordOutcome(newOutcome);
         UpdateTimestamp();
+        return true;
+    }
+
+    public bool ChangeInterviewNotes(Guid interviewId, string newNotes)
+    {
+        var interview = _interviews.FirstOrDefault(i => i.Id == interviewId);
+        
+        if (interview is null)
+            return false;
+        
+        interview.ChangeNotes(newNotes);
+        UpdateTimestamp();
+        return true;
+    }
+
+    public Note AddNote(string content)
+    {
+        var note = Note.Create(content);
+        _notes.Add(note);
+        UpdateTimestamp();
+        return note;
+    }
+
+    public bool RemoveNote(Guid noteId)
+    {
+        var note = _notes.FirstOrDefault(n => n.Id == noteId);
+
+        if (note is null)
+            return false;
+
+        _notes.Remove(note);
+        UpdateTimestamp();
+        return true;
+    }
+
+    public bool ChangeNoteContent(Guid noteId, string newContent)
+    {
+        var note = _notes.FirstOrDefault(n => n.Id == noteId);
+
+        if (note is null)
+            return false;
+
+        note.ChangeContent(newContent);
+        UpdateTimestamp();
+        return true;
     }
 }
