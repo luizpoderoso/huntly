@@ -2,15 +2,20 @@
 	import { onMount } from 'svelte';
 	import { page } from '$app/state';
 	import { resolve } from '$app/paths';
-	import { jobsStore } from '$lib/stores/jobs.svelte';
+	import { jobsStore } from '$lib/stores';
 	import { Button } from '$lib/components/ui/button';
 	import * as Card from '$lib/components/ui/card';
 	import * as Select from '$lib/components/ui/select';
-	import type { ApplicationStatus } from '$lib/types/jobs';
+	import * as Tabs from '$lib/components/ui/tabs';
 	import * as AlertDialog from '$lib/components/ui/alert-dialog';
 	import { Skeleton } from '$lib/components/ui/skeleton';
+	import InterviewCard from '$lib/components/jobs/InterviewCard.svelte';
+	import NoteCard from '$lib/components/jobs/NoteCard.svelte';
+	import AddInterviewDialog from '$lib/components/jobs/AddInterviewDialog.svelte';
+	import AddNoteDialog from '$lib/components/jobs/AddNoteDialog.svelte';
+	import type { ApplicationStatus } from '$lib/types';
 
-	const id = page.params.id;
+	const id = page.params.id ?? '';
 
 	const statuses: ApplicationStatus[] = [
 		'Applied',
@@ -24,6 +29,8 @@
 	];
 
 	let selectedStatus = $state<ApplicationStatus>('Applied');
+	let addInterviewOpen = $state(false);
+	let addNoteOpen = $state(false);
 
 	const triggerContent = $derived(statuses.find((s) => s === selectedStatus) ?? 'Select status');
 
@@ -83,7 +90,7 @@
 			<AlertDialog.Root>
 				<AlertDialog.Trigger>
 					{#snippet child({ props })}
-						<Button class="hover:cursor-pointer" variant="destructive" {...props}>Delete</Button>
+						<Button variant="destructive" {...props}>Delete</Button>
 					{/snippet}
 				</AlertDialog.Trigger>
 				<AlertDialog.Content>
@@ -151,5 +158,45 @@
 				</div>
 			</Card.Content>
 		</Card.Root>
+
+		<Tabs.Root value="interviews">
+			<Tabs.List class="w-full">
+				<Tabs.Trigger value="interviews" class="flex-1">
+					Interviews ({job.interviews.length})
+				</Tabs.Trigger>
+				<Tabs.Trigger value="notes" class="flex-1">
+					Notes ({job.notes.length})
+				</Tabs.Trigger>
+			</Tabs.List>
+
+			<Tabs.Content value="interviews" class="mt-4 flex flex-col gap-4">
+				<div class="flex justify-end">
+					<Button onclick={() => (addInterviewOpen = true)}>Add interview</Button>
+				</div>
+				{#if job.interviews.length === 0}
+					<p class="py-6 text-center text-sm text-muted-foreground">No interviews yet.</p>
+				{:else}
+					{#each job.interviews as interview (interview.id)}
+						<InterviewCard {interview} jobId={id} />
+					{/each}
+				{/if}
+			</Tabs.Content>
+
+			<Tabs.Content value="notes" class="mt-4 flex flex-col gap-4">
+				<div class="flex justify-end">
+					<Button onclick={() => (addNoteOpen = true)}>Add note</Button>
+				</div>
+				{#if job.notes.length === 0}
+					<p class="py-6 text-center text-sm text-muted-foreground">No notes yet.</p>
+				{:else}
+					{#each job.notes as note (note.id)}
+						<NoteCard {note} jobId={id} />
+					{/each}
+				{/if}
+			</Tabs.Content>
+		</Tabs.Root>
 	</div>
 {/if}
+
+<AddInterviewDialog bind:open={addInterviewOpen} jobId={id} />
+<AddNoteDialog bind:open={addNoteOpen} jobId={id} />
