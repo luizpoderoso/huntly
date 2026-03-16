@@ -14,8 +14,8 @@ public class RecordInterviewOutcomeEndpoint(IMediator mediator) : Endpoint<Recor
 
     public override async Task HandleAsync(RecordInterviewOutcomeRequest req, CancellationToken ct)
     {
-        var jobId = Query<Guid>("jobId");
-        var interviewId = Query<Guid>("interviewId");
+        var jobId = Route<Guid>("jobId");
+        var interviewId = Route<Guid>("interviewId");
         var command = new RecordInterviewOutcomeCommand(jobId, interviewId, req.NewInterviewOutcome);
         await mediator.Send(command, ct);
         await Send.NoContentAsync(ct);
