@@ -8,7 +8,7 @@ public class AddInterviewEndpoint(IMediator mediator) : Endpoint<AddInterviewReq
 {
     public override void Configure()
     {
-        Post("/{jobId:guid}/interviews");
+        Post("{jobId:guid}/interviews");
         Group<JobsGroup>();
     }
 
