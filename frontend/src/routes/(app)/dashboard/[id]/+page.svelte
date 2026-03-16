@@ -1,15 +1,15 @@
 <script lang="ts">
-	import { page } from "$app/state";
-	import { jobsStore, type ApplicationStatus } from "$lib";
-	import { InterviewCard, NoteCard, AddInterviewDialog, AddNoteDialog } from "$lib/components";
-	import { Skeleton } from "$lib/components/ui/skeleton";
-	import { resolve } from "$app/paths";
-	import { onMount } from "svelte";
-	import * as AlertDialog from "$lib/components/ui/alert-dialog";
-	import * as Card from "$lib/components/ui/card";
-	import * as Select from "$lib/components/ui/select";
-	import * as Tabs from "$lib/components/ui/tabs";
-	import { Button } from "$lib/components/ui/button";
+	import { page } from '$app/state';
+	import { jobsStore, type ApplicationStatus } from '$lib';
+	import { InterviewCard, NoteCard, AddInterviewDialog, AddNoteDialog } from '$lib/components';
+	import { Skeleton } from '$lib/components/ui/skeleton';
+	import { resolve } from '$app/paths';
+	import { onMount } from 'svelte';
+	import * as AlertDialog from '$lib/components/ui/alert-dialog';
+	import * as Card from '$lib/components/ui/card';
+	import * as Select from '$lib/components/ui/select';
+	import * as Tabs from '$lib/components/ui/tabs';
+	import { Button } from '$lib/components/ui/button';
 
 	const id = page.params.id ?? '';
 
@@ -28,7 +28,18 @@
 	let addInterviewOpen = $state(false);
 	let addNoteOpen = $state(false);
 
-	const triggerContent = $derived(statuses.find((s) => s === selectedStatus) ?? 'Select status');
+	const statusLabels: Record<ApplicationStatus, string> = {
+		Applied: 'Applied',
+		PhoneScreen: 'Phone Screen',
+		TechnicalInterview: 'Technical Interview',
+		OnsiteInterview: 'Onsite Interview',
+		Offer: 'Offer',
+		Rejected: 'Rejected',
+		Withdrawn: 'Withdrawn',
+		Ghosted: 'Ghosted'
+	};
+
+	const triggerContent = $derived(statusLabels[selectedStatus] ?? 'Select status');
 
 	onMount(async () => {
 		if (!id) return;
@@ -118,7 +129,7 @@
 						</Select.Trigger>
 						<Select.Content>
 							{#each statuses as status (status)}
-								<Select.Item value={status}>{status}</Select.Item>
+								<Select.Item value={status}>{statusLabels[status]}</Select.Item>
 							{/each}
 						</Select.Content>
 					</Select.Root>
