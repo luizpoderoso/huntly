@@ -2,12 +2,41 @@
 	import { onMount } from 'svelte';
 	import { jobsStore } from '$lib/stores/jobs.svelte';
 	import { Button } from '$lib/components/ui/button';
+	import { Input } from '$lib/components/ui/input';
 	import * as Card from '$lib/components/ui/card';
+	import * as Select from '$lib/components/ui/select';
 	import JobCard from '$lib/components/jobs/JobCard.svelte';
 	import CreateJobDialog from '$lib/components/jobs/CreateJobDialog.svelte';
 	import { Skeleton } from '$lib/components/ui/skeleton';
+	import type { ApplicationStatus } from '$lib/types';
+
+	const statuses: (ApplicationStatus | 'All')[] = [
+		'All',
+		'Applied',
+		'PhoneScreen',
+		'TechnicalInterview',
+		'OnsiteInterview',
+		'Offer',
+		'Rejected',
+		'Withdrawn',
+		'Ghosted'
+	];
+
+	const statusLabels: Record<ApplicationStatus | 'All', string> = {
+		All: 'All statuses',
+		Applied: 'Applied',
+		PhoneScreen: 'Phone Screen',
+		TechnicalInterview: 'Technical Interview',
+		OnsiteInterview: 'Onsite Interview',
+		Offer: 'Offer',
+		Rejected: 'Rejected',
+		Withdrawn: 'Withdrawn',
+		Ghosted: 'Ghosted'
+	};
 
 	let createDialogOpen = $state(false);
+
+	const filterTrigger = $derived(statusLabels[jobsStore.statusFilter]);
 
 	onMount(async () => {
 		await jobsStore.fetchJobs();
@@ -19,10 +48,36 @@
 		<div>
 			<h1 class="text-2xl font-bold">Dashboard</h1>
 			<p class="text-sm text-muted-foreground">
-				{jobsStore.jobs.length} application{jobsStore.jobs.length !== 1 ? 's' : ''}
+				{jobsStore.filteredJobs.length} of {jobsStore.jobs.length} application{jobsStore.jobs
+					.length !== 1
+					? 's'
+					: ''}
 			</p>
 		</div>
 		<Button onclick={() => (createDialogOpen = true)}>Add application</Button>
+	</div>
+
+	<div class="flex gap-3">
+		<Input
+			placeholder="Search by company or position..."
+			value={jobsStore.search}
+			oninput={(e) => (jobsStore.search = e.currentTarget.value)}
+			class="max-w-sm"
+		/>
+		<Select.Root
+			type="single"
+			value={jobsStore.statusFilter}
+			onValueChange={(v) => (jobsStore.statusFilter = v as ApplicationStatus | 'All')}
+		>
+			<Select.Trigger class="w-48">
+				{filterTrigger}
+			</Select.Trigger>
+			<Select.Content>
+				{#each statuses as status (status)}
+					<Select.Item value={status}>{statusLabels[status]}</Select.Item>
+				{/each}
+			</Select.Content>
+		</Select.Root>
 	</div>
 
 	{#if jobsStore.loading}
@@ -47,9 +102,24 @@
 				<Button onclick={() => (createDialogOpen = true)}>Add your first application</Button>
 			</Card.Content>
 		</Card.Root>
+	{:else if jobsStore.filteredJobs.length === 0}
+		<Card.Root>
+			<Card.Content class="flex flex-col items-center justify-center gap-3 py-12">
+				<p class="text-muted-foreground">No applications match your search.</p>
+				<Button
+					variant="outline"
+					onclick={() => {
+						jobsStore.search = '';
+						jobsStore.statusFilter = 'All';
+					}}
+				>
+					Clear filters
+				</Button>
+			</Card.Content>
+		</Card.Root>
 	{:else}
 		<div class="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
-			{#each jobsStore.jobs as job (job.id)}
+			{#each jobsStore.filteredJobs as job (job.id)}
 				<JobCard {job} />
 			{/each}
 		</div>
