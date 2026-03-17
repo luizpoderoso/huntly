@@ -3,6 +3,15 @@
 A full-stack job application tracker built to demonstrate production-grade software engineering practices — Clean
 Architecture, CQRS, Domain-Driven Design patterns, and a modern reactive frontend.
 
+> **Live Demo:** [https://lp-huntly.netlify.app](https://lp-huntly.netlify.app)
+
+| Role            | Status       | Link                                                                             |
+|:----------------|:-------------|:---------------------------------------------------------------------------------|
+| **Frontend**    | 🟢 Live      | [lp-huntly.netlify.app](https://lp-huntly.netlify.app)                           |
+| **API Backend** | 🔵 Online    | [huntly-cgmd.onrender.com](https://huntly-cgmd.onrender.com)                     |
+| **API Docs**    | 📖 Scalar    | [huntly-cgmd.onrender.com/scalar/v1](https://huntly-cgmd.onrender.com/scalar/v1) |
+| **Database**    | ⚡ Serverless | [Neon.tech](https://neon.tech)                                                   |
+
 > This is a portfolio project. The goal is not just a working app, but a codebase that reflects the kind of decisions
 > made in real, maintainable production systems.
 
@@ -151,11 +160,13 @@ dotnet user-secrets set "Jwt:Secret" "your-secret-min-32-characters-long" -p src
 dotnet user-secrets set "Auth:Pepper" "your-pepper-value" -p src/Huntly.Api
 ```
 
-**3. Run migrations**
+**3. Database Setup**
 
-```bash
-dotnet ef database update --project src/Huntly.Infra --startup-project src/Huntly.Api
-```
+The application is configured to apply migrations automatically on startup. Ensure your PostgreSQL instance is running
+and the connection string in User Secrets is correct.
+
+*Note: If you prefer manual control during development, you can still run:*
+`dotnet ef database update --project src/Huntly.Infra --startup-project src/Huntly.Api`
 
 **4. Start the API**
 
@@ -216,6 +227,23 @@ All endpoints are prefixed with `/api`. An interactive API reference is availabl
 | `PATCH`  | `/api/jobs/:id/notes/:noteId`                   | Update note content                         |
 | `DELETE` | `/api/jobs/:id/notes/:noteId`                   | Delete a note                               |
 | `POST`   | `/api/seed`                                     | Load sample data for the authenticated user |
+
+---
+
+## Deployment
+
+The project is architected for a decoupled deployment:
+
+- **Frontend:** Hosted on **Netlify**, utilizing the SvelteKit Netlify Adapter for SSR and edge functions.
+- **Backend:** Hosted on **Render**, running as a persistent web service.
+- **Database:** **Serverless PostgreSQL** provided by **Neon**, ensuring low-latency and auto-scaling capabilities.
+
+### CI/CD Flow
+
+1. Pushing to `main` triggers a build on both platforms.
+2. The Backend runs automated migrations via `context.Database.Migrate()` during the startup sequence to ensure the
+   schema is always in sync with the latest domain models.
+3. The Frontend communicates with the Backend via a secure CORS-enabled API.
 
 ---
 
