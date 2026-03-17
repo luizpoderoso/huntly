@@ -19,7 +19,7 @@ public sealed class Interview : AuditableEntity
     internal static Interview Create(InterviewType type, DateTime scheduledAt, string? notes,
         InterviewOutcome outcome = InterviewOutcome.Pending)
     {
-        if (scheduledAt < DateTime.UtcNow)
+        if (scheduledAt < DateTime.UtcNow && outcome == InterviewOutcome.Pending)
             throw new ArgumentException("Interview cannot be scheduled in the past.");
 
         return new Interview { Type = type, ScheduledAt = scheduledAt, Notes = notes, Outcome = outcome };
