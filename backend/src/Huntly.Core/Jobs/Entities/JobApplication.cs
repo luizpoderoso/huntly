@@ -63,9 +63,9 @@ public sealed class JobApplication : AuditableEntity
     }
 
     public Interview AddInterview(InterviewType type, DateTime scheduledAt, string? interviewNotes,
-        InterviewOutcome outcome = InterviewOutcome.Pending)
+        InterviewOutcome outcome = InterviewOutcome.Pending, bool skipClosedApplicationCheck = false)
     {
-        if (Status == ApplicationStatus.Rejected || Status == ApplicationStatus.Withdrawn)
+        if (!skipClosedApplicationCheck && Status is ApplicationStatus.Rejected or ApplicationStatus.Withdrawn)
             throw new DomainException("Cannot add an interview to a closed application.");
 
         var interview = Interview.Create(type, scheduledAt, interviewNotes, outcome);
