@@ -19,6 +19,13 @@ builder.Services
     {
         s.Title = "Huntly API";
         s.Version = "v1";
+        s.AddAuth("Bearer", new NSwag.OpenApiSecurityScheme
+        {
+            Type = NSwag.OpenApiSecuritySchemeType.Http,
+            Scheme = "bearer",
+            BearerFormat = "JWT",
+            Description = "Enter your JWT token. Get one from POST /api/auth/login."
+        });
     })
     .AddCors(options =>
         options.AddDefaultPolicy(p =>
@@ -44,7 +51,8 @@ app.MapScalarApiReference(options =>
 {
     options.WithOpenApiRoutePattern("swagger/v1/swagger.json")
         .WithTitle("Huntly API Reference")
-        .WithDefaultHttpClient(ScalarTarget.CSharp, ScalarClient.HttpClient);
+        .WithDefaultHttpClient(ScalarTarget.CSharp, ScalarClient.HttpClient)
+        .AddPreferredSecuritySchemes("Bearer");
 });
 
 app.Run();
