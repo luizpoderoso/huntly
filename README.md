@@ -5,11 +5,11 @@ Architecture, CQRS, Domain-Driven Design patterns, and a modern reactive fronten
 
 > **Live Demo:** [https://lp-huntly.netlify.app](https://lp-huntly.netlify.app)
 
-| Role            | Status        | Link                                                                             |
-| :-------------- | :------------ | :------------------------------------------------------------------------------- |
-| **Frontend**    | 🟢 Live       | [lp-huntly.netlify.app](https://lp-huntly.netlify.app)                           |
-| **API Backend** | 🔵 Online     | [huntly-cgmd.onrender.com](https://huntly-cgmd.onrender.com)                     |
-| **API Docs**    | 📖 Scalar     | [huntly-cgmd.onrender.com/scalar/v1](https://huntly-cgmd.onrender.com/scalar/v1) |
+| Role            | Status       | Link                                                                             |
+|:----------------|:-------------|:---------------------------------------------------------------------------------|
+| **Frontend**    | 🟢 Live      | [lp-huntly.netlify.app](https://lp-huntly.netlify.app)                           |
+| **API Backend** | 🔵 Online    | [huntly-cgmd.onrender.com](https://huntly-cgmd.onrender.com)                     |
+| **API Docs**    | 📖 Scalar    | [huntly-cgmd.onrender.com/scalar/v1](https://huntly-cgmd.onrender.com/scalar/v1) |
 | **Database**    | ⚡ Serverless | [Neon.tech](https://neon.tech)                                                   |
 
 > This is a portfolio project. The goal is not just a working app, but a codebase that reflects the kind of decisions
@@ -29,7 +29,7 @@ application can have interviews and notes attached to it, and the status updates
 ### Backend
 
 | Technology                | Reason                                                                                            |
-| ------------------------- | ------------------------------------------------------------------------------------------------- |
+|---------------------------|---------------------------------------------------------------------------------------------------|
 | **.NET 10**               | Latest LTS, performance improvements, primary language expertise                                  |
 | **FastEndpoints**         | Replaces MVC controllers — thinner endpoints, better performance, explicit request/response types |
 | **MediatR**               | CQRS pipeline — commands and queries are decoupled from their handlers                            |
@@ -37,11 +37,12 @@ application can have interviews and notes attached to it, and the status updates
 | **ASP.NET Core Identity** | Industry-standard auth primitives without reinventing the wheel                                   |
 | **Argon2id**              | Replaces Identity's default PBKDF2 — memory-hard, resistant to GPU brute force attacks            |
 | **Scalar**                | Interactive API reference — explore and test all endpoints with JWT auth support                  |
+| **NUnit + NSubstitute**   | Comprehensive unit testing suite for Application handlers and Domain logic.                       | 
 
 ### Frontend
 
 | Technology           | Reason                                                                    |
-| -------------------- | ------------------------------------------------------------------------- |
+|----------------------|---------------------------------------------------------------------------|
 | **SvelteKit**        | File-based routing, SSR-ready, minimal boilerplate                        |
 | **Svelte 5 (runes)** | Latest Svelte — signals-based reactivity, cleaner state management        |
 | **TypeScript**       | Type safety across API contracts and component props                      |
@@ -103,6 +104,14 @@ required for EF Core to correctly track new entities added to private collection
 **Separation of mutation errors from fetch state**
 In the frontend jobs store, failed mutations (create, update, delete) surface as toast notifications only. They never
 overwrite the `error` state used by the UI — a failed form submission never hides your job list.
+
+**Client-side Caching Strategy**
+The frontend implements a custom caching layer within the Svelte 5 stores.
+
+- TTL (Time-to-Live): JobSummary and JobDetail data are cached for 5 minutes.
+
+- Smart Invalidation: Any write operation (Create, Update, Delete) immediately invalidates the relevant cache, ensuring
+  the UI stays consistent without unnecessary network overhead.
 
 ---
 
@@ -211,7 +220,7 @@ The frontend runs on `http://localhost:5173`.
 All endpoints are prefixed with `/api`. An interactive API reference is available at `/scalar/v1`.
 
 | Method   | Route                                           | Description                                 |
-| -------- | ----------------------------------------------- | ------------------------------------------- |
+|----------|-------------------------------------------------|---------------------------------------------|
 | `POST`   | `/api/auth/register`                            | Register a new account                      |
 | `POST`   | `/api/auth/login`                               | Login and receive JWT                       |
 | `GET`    | `/api/jobs`                                     | List all job applications                   |
@@ -227,6 +236,15 @@ All endpoints are prefixed with `/api`. An interactive API reference is availabl
 | `PATCH`  | `/api/jobs/:id/notes/:noteId`                   | Update note content                         |
 | `DELETE` | `/api/jobs/:id/notes/:noteId`                   | Delete a note                               |
 | `POST`   | `/api/seed`                                     | Load sample data for the authenticated user |
+
+---
+
+## Quality Assurance
+
+The project maintains high reliability through automated testing:
+
+- **94 Unit Tests**: Built with NUnit and NSubstitute, focusing on the Application layer handlers and Core domain
+  invariants.
 
 ---
 
