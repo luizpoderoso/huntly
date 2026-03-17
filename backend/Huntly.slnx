@@ -7,5 +7,6 @@
   </Folder>
   <Folder Name="/tests/">
     <Project Path="tests/Huntly.Application.Tests/Huntly.Application.Tests.csproj" />
+    <Project Path="tests/Huntly.Core.Tests/Huntly.Core.Tests.csproj" />
   </Folder>
 </Solution>
