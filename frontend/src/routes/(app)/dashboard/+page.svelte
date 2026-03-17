@@ -100,6 +100,14 @@
 			<Card.Content class="flex flex-col items-center justify-center gap-3 py-12">
 				<p class="text-muted-foreground">No applications yet.</p>
 				<Button onclick={() => (createDialogOpen = true)}>Add your first application</Button>
+				<Button
+					variant="outline"
+					onclick={async () => {
+						await jobsStore.seed();
+					}}
+				>
+					Load sample data
+				</Button>
 			</Card.Content>
 		</Card.Root>
 	{:else if jobsStore.filteredJobs.length === 0}
