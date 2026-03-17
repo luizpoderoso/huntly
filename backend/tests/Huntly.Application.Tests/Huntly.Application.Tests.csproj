@@ -21,4 +21,9 @@
     <Using Include="NUnit.Framework" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Huntly.Application\Huntly.Application.csproj" />
+    <ProjectReference Include="..\..\src\Huntly.Core\Huntly.Core.csproj" />
+  </ItemGroup>
+
 </Project>
