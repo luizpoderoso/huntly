@@ -13,13 +13,15 @@ public sealed class JobApplication : AuditableEntity
     public ApplicationStatus Status { get; private set; } = ApplicationStatus.Applied;
     public JobUrl? JobUrl { get; private set; }
     public SalaryRange? SalaryRange { get; private set; }
-    
+
     private readonly List<Interview> _interviews = new();
     private readonly List<Note> _notes = new();
     public IReadOnlyCollection<Interview> Interviews => _interviews.AsReadOnly();
     public IReadOnlyCollection<Note> Notes => _notes.AsReadOnly();
-    
-    private JobApplication() {}
+
+    private JobApplication()
+    {
+    }
 
     public static JobApplication Create(
         Guid userId,
@@ -40,7 +42,7 @@ public sealed class JobApplication : AuditableEntity
 
         return job;
     }
-    
+
     public void ChangeCompanyName(CompanyName companyName)
     {
         CompanyName = companyName;
@@ -59,27 +61,28 @@ public sealed class JobApplication : AuditableEntity
         Status = newStatus;
         UpdateTimestamp();
     }
-    
-    public Interview AddInterview(InterviewType type, DateTime scheduledAt, string? interviewNotes)
+
+    public Interview AddInterview(InterviewType type, DateTime scheduledAt, string? interviewNotes,
+        InterviewOutcome outcome = InterviewOutcome.Pending)
     {
         if (Status == ApplicationStatus.Rejected || Status == ApplicationStatus.Withdrawn)
             throw new DomainException("Cannot add an interview to a closed application.");
 
-        var interview = Interview.Create(type, scheduledAt, interviewNotes);
+        var interview = Interview.Create(type, scheduledAt, interviewNotes, outcome);
 
         _interviews.Add(interview);
         UpdateTimestamp();
 
         return interview;
     }
-    
+
     public bool RemoveInterview(Guid interviewId)
     {
         var interview = _interviews.FirstOrDefault(i => i.Id == interviewId);
 
         if (interview is null)
             return false;
-    
+
         _interviews.Remove(interview);
         UpdateTimestamp();
         return true;
@@ -88,10 +91,10 @@ public sealed class JobApplication : AuditableEntity
     public bool RecordInterviewOutcome(Guid interviewId, InterviewOutcome newOutcome)
     {
         var interview = _interviews.FirstOrDefault(i => i.Id == interviewId);
-        
+
         if (interview is null)
             return false;
-        
+
         interview.RecordOutcome(newOutcome);
         UpdateTimestamp();
         return true;
@@ -100,10 +103,10 @@ public sealed class JobApplication : AuditableEntity
     public bool ChangeInterviewNotes(Guid interviewId, string newNotes)
     {
         var interview = _interviews.FirstOrDefault(i => i.Id == interviewId);
-        
+
         if (interview is null)
             return false;
-        
+
         interview.ChangeNotes(newNotes);
         UpdateTimestamp();
         return true;
