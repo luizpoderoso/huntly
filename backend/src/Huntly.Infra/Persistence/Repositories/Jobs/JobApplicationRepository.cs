@@ -7,6 +7,11 @@ namespace Huntly.Infra.Persistence.Repositories.Jobs;
 
 public class JobApplicationRepository(AppDbContext context) : IJobApplicationRepository
 {
+    public async Task<int> CountByUserIdAsync(Guid userId, CancellationToken ct)
+    {
+        return await context.JobApplications.CountAsync(j => j.UserId == userId, ct);
+    }
+
     public async Task<JobApplication?> GetByIdAsync(Guid id, CancellationToken ct)
     {
         return await context.JobApplications
