@@ -49,9 +49,9 @@ public class SeedCommandHandler(
             new JobUrl("https://stripe.com/jobs"),
             new SalaryRange(120000, 160000, "USD"));
         job1.UpdateStatus(ApplicationStatus.Offer);
-        job1.AddInterview(InterviewType.PhoneScreen, now.AddDays(-20), "Recruiter screen — 30 min", InterviewOutcome.Passed);
-        job1.AddInterview(InterviewType.Technical, now.AddDays(-14), "System design + coding", InterviewOutcome.Passed);
-        job1.AddInterview(InterviewType.Onsite, now.AddDays(-7), "4 rounds, full day", InterviewOutcome.Passed);
+        job1.AddInterview(InterviewType.PhoneScreen, now.AddDays(-20), "Recruiter screen — 30 min", InterviewOutcome.Passed, true);
+        job1.AddInterview(InterviewType.Technical, now.AddDays(-14), "System design + coding", InterviewOutcome.Passed, true);
+        job1.AddInterview(InterviewType.Onsite, now.AddDays(-7), "4 rounds, full day", InterviewOutcome.Passed, true);
         job1.AddNote("Recruiter mentioned strong interest from the team.");
         job1.AddNote("Negotiating start date — they want mid-April.");
         jobs.Add(job1);
@@ -63,8 +63,8 @@ public class SeedCommandHandler(
             new JobUrl("https://careers.airbnb.com"),
             new SalaryRange(110000, 140000, "USD"));
         job2.UpdateStatus(ApplicationStatus.Rejected);
-        job2.AddInterview(InterviewType.PhoneScreen, now.AddDays(-30), null, InterviewOutcome.Passed);
-        job2.AddInterview(InterviewType.Technical, now.AddDays(-22), "LeetCode hard — struggled with graph problem", InterviewOutcome.Failed);
+        job2.AddInterview(InterviewType.PhoneScreen, now.AddDays(-30), null, InterviewOutcome.Passed, true);
+        job2.AddInterview(InterviewType.Technical, now.AddDays(-22), "LeetCode hard — struggled with graph problem", InterviewOutcome.Failed, true);
         job2.AddNote("Need to review graph algorithms before next application.");
         jobs.Add(job2);
 
@@ -75,9 +75,9 @@ public class SeedCommandHandler(
             new JobUrl("https://linear.app/careers"),
             new SalaryRange(100000, 130000, "USD"));
         job3.UpdateStatus(ApplicationStatus.OnsiteInterview);
-        job3.AddInterview(InterviewType.PhoneScreen, now.AddDays(-15), null, InterviewOutcome.Passed);
-        job3.AddInterview(InterviewType.Technical, now.AddDays(-8), "Went well — they loved the system design", InterviewOutcome.Passed);
-        job3.AddInterview(InterviewType.Onsite, now.AddDays(3), "Onsite in SF — 5 rounds");
+        job3.AddInterview(InterviewType.PhoneScreen, now.AddDays(-15), null, InterviewOutcome.Passed, true);
+        job3.AddInterview(InterviewType.Technical, now.AddDays(-8), "Went well — they loved the system design", InterviewOutcome.Passed, true);
+        job3.AddInterview(InterviewType.Onsite, now.AddDays(3), "Onsite in SF — 5 rounds", InterviewOutcome.Pending, true);
         job3.AddNote("Research their product roadmap before onsite.");
         jobs.Add(job3);
 
@@ -88,8 +88,8 @@ public class SeedCommandHandler(
             new JobUrl("https://vercel.com/careers"),
             null);
         job4.UpdateStatus(ApplicationStatus.TechnicalInterview);
-        job4.AddInterview(InterviewType.PhoneScreen, now.AddDays(-10), "Quick 20 min call", InterviewOutcome.Passed);
-        job4.AddInterview(InterviewType.Technical, now.AddDays(2), "Take-home then review call");
+        job4.AddInterview(InterviewType.PhoneScreen, now.AddDays(-10), "Quick 20 min call", InterviewOutcome.Passed, true);
+        job4.AddInterview(InterviewType.Technical, now.AddDays(2), "Take-home then review call", InterviewOutcome.Pending, true);
         jobs.Add(job4);
 
         // 5. Phone screen scheduled
@@ -99,7 +99,7 @@ public class SeedCommandHandler(
             new JobUrl("https://notion.so/careers"),
             new SalaryRange(95000, 125000, "USD"));
         job5.UpdateStatus(ApplicationStatus.PhoneScreen);
-        job5.AddInterview(InterviewType.PhoneScreen, now.AddDays(1), "HR intro call");
+        job5.AddInterview(InterviewType.PhoneScreen, now.AddDays(1), "HR intro call", InterviewOutcome.Pending, true);
         job5.AddNote("They use a custom infra stack — research before the call.");
         jobs.Add(job5);
 
