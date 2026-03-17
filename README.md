@@ -5,11 +5,11 @@ Architecture, CQRS, Domain-Driven Design patterns, and a modern reactive fronten
 
 > **Live Demo:** [https://lp-huntly.netlify.app](https://lp-huntly.netlify.app)
 
-| Role            | Status       | Link                                                                             |
-|:----------------|:-------------|:---------------------------------------------------------------------------------|
-| **Frontend**    | 🟢 Live      | [lp-huntly.netlify.app](https://lp-huntly.netlify.app)                           |
-| **API Backend** | 🔵 Online    | [huntly-cgmd.onrender.com](https://huntly-cgmd.onrender.com)                     |
-| **API Docs**    | 📖 Scalar    | [huntly-cgmd.onrender.com/scalar/v1](https://huntly-cgmd.onrender.com/scalar/v1) |
+| Role            | Status        | Link                                                                             |
+| :-------------- | :------------ | :------------------------------------------------------------------------------- |
+| **Frontend**    | 🟢 Live       | [lp-huntly.netlify.app](https://lp-huntly.netlify.app)                           |
+| **API Backend** | 🔵 Online     | [huntly-cgmd.onrender.com](https://huntly-cgmd.onrender.com)                     |
+| **API Docs**    | 📖 Scalar     | [huntly-cgmd.onrender.com/scalar/v1](https://huntly-cgmd.onrender.com/scalar/v1) |
 | **Database**    | ⚡ Serverless | [Neon.tech](https://neon.tech)                                                   |
 
 > This is a portfolio project. The goal is not just a working app, but a codebase that reflects the kind of decisions
@@ -29,7 +29,7 @@ application can have interviews and notes attached to it, and the status updates
 ### Backend
 
 | Technology                | Reason                                                                                            |
-|---------------------------|---------------------------------------------------------------------------------------------------|
+| ------------------------- | ------------------------------------------------------------------------------------------------- |
 | **.NET 10**               | Latest LTS, performance improvements, primary language expertise                                  |
 | **FastEndpoints**         | Replaces MVC controllers — thinner endpoints, better performance, explicit request/response types |
 | **MediatR**               | CQRS pipeline — commands and queries are decoupled from their handlers                            |
@@ -41,7 +41,7 @@ application can have interviews and notes attached to it, and the status updates
 ### Frontend
 
 | Technology           | Reason                                                                    |
-|----------------------|---------------------------------------------------------------------------|
+| -------------------- | ------------------------------------------------------------------------- |
 | **SvelteKit**        | File-based routing, SSR-ready, minimal boilerplate                        |
 | **Svelte 5 (runes)** | Latest Svelte — signals-based reactivity, cleaner state management        |
 | **TypeScript**       | Type safety across API contracts and component props                      |
@@ -165,7 +165,7 @@ dotnet user-secrets set "Auth:Pepper" "your-pepper-value" -p src/Huntly.Api
 The application is configured to apply migrations automatically on startup. Ensure your PostgreSQL instance is running
 and the connection string in User Secrets is correct.
 
-*Note: If you prefer manual control during development, you can still run:*
+_Note: If you prefer manual control during development, you can still run:_
 `dotnet ef database update --project src/Huntly.Infra --startup-project src/Huntly.Api`
 
 **4. Start the API**
@@ -211,7 +211,7 @@ The frontend runs on `http://localhost:5173`.
 All endpoints are prefixed with `/api`. An interactive API reference is available at `/scalar/v1`.
 
 | Method   | Route                                           | Description                                 |
-|----------|-------------------------------------------------|---------------------------------------------|
+| -------- | ----------------------------------------------- | ------------------------------------------- |
 | `POST`   | `/api/auth/register`                            | Register a new account                      |
 | `POST`   | `/api/auth/login`                               | Login and receive JWT                       |
 | `GET`    | `/api/jobs`                                     | List all job applications                   |
@@ -253,7 +253,7 @@ The project is architected for a decoupled deployment:
 - [x] Interview and note management
 - [x] Dashboard statistics
 - [x] Filters and search
-- [ ] Unit tests for Application handlers
+- [x] Unit tests for Application handlers
 - [ ] Integration tests for API endpoints
 - [x] Docker setup
 
