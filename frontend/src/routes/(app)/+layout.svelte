@@ -13,7 +13,7 @@
             <Sidebar.Trigger class="-ml-1" />
             <span class="font-semibold">Huntly</span>
         </header>
-        <main class="p-8">
+        <main class="p-4 md:p-8">
             {@render children()}
         </main>
     </Sidebar.Inset>
