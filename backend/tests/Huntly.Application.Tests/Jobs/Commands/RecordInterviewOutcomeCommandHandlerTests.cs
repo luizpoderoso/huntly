@@ -36,7 +36,7 @@ public class RecordInterviewOutcomeCommandHandlerTests
     {
         var jobId = Guid.NewGuid();
         var job = JobApplication.Create(_userContext.UserId, new CompanyName("Company A"), new Position("Dev"));
-        var interview = job.AddInterview(InterviewType.HR, DateTime.UtcNow, "Some Interview");
+        var interview = job.AddInterview(InterviewType.HR, DateTime.UtcNow.AddDays(1), "Some Interview");
 
         var command = new RecordInterviewOutcomeCommand(jobId, interview.Id, InterviewOutcome.Passed);
 
