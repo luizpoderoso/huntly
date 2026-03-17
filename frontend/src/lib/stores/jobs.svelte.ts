@@ -264,6 +264,21 @@ function createJobsStore() {
 				toast.error(message);
 				throw e;
 			}
+		},
+
+		async seed() {
+			loading = true;
+			try {
+				await jobsApi.seedJobs();
+				await this.fetchJobs();
+				toast.success('Sample data loaded successfully.');
+			} catch (e: unknown) {
+				const message = (e as { error: string })?.error ?? 'Failed to load sample data.';
+				toast.error(message);
+				throw e;
+			} finally {
+				loading = false;
+			}
 		}
 	};
 }

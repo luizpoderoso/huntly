@@ -4,6 +4,7 @@ namespace Huntly.Core.Jobs.Repositories;
 
 public interface IJobApplicationRepository
 {
+    Task<int> CountByUserIdAsync(Guid userId, CancellationToken ct);
     Task<JobApplication?> GetByIdAsync(Guid id, CancellationToken ct);
     Task<IReadOnlyCollection<JobApplication>> GetAllByUserIdAsync(Guid userId, CancellationToken ct);
     Task AddAsync(JobApplication jobApplication, CancellationToken ct);
