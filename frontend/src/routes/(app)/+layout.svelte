@@ -9,7 +9,11 @@
 <Sidebar.Provider>
     <AppSidebar />
     <Sidebar.Inset>
-        <main class="p-8">
+        <header class="flex h-14 shrink-0 items-center gap-2 border-b px-4 md:hidden">
+            <Sidebar.Trigger class="-ml-1" />
+            <span class="font-semibold">Huntly</span>
+        </header>
+        <main class="p-4 md:p-8">
             {@render children()}
         </main>
     </Sidebar.Inset>
