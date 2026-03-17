@@ -5,4 +5,7 @@
     <Project Path="src/Huntly.Core/Huntly.Core.csproj" />
     <Project Path="src/Huntly.Infra/Huntly.Infra.csproj" />
   </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/Huntly.Application.Tests/Huntly.Application.Tests.csproj" />
+  </Folder>
 </Solution>
