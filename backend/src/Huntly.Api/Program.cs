@@ -5,6 +5,9 @@ using FastEndpoints.Swagger;
 using Huntly.Api.Middleware;
 using Huntly.Application;
 using Huntly.Infra;
+using Huntly.Infra.Persistence.Context;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Scalar.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -55,4 +58,15 @@ app.MapScalarApiReference(options =>
         .AddPreferredSecuritySchemes("Bearer");
 });
 
+await ApplyMigrations(app);
+
 app.Run();
+
+return;
+
+async Task ApplyMigrations(WebApplication webApplication)
+{
+    using var scope = webApplication.Services.CreateScope();
+    var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    await db.Database.MigrateAsync();
+}
