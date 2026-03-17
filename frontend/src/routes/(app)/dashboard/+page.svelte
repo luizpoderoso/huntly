@@ -9,6 +9,7 @@
 	import CreateJobDialog from '$lib/components/jobs/CreateJobDialog.svelte';
 	import { Skeleton } from '$lib/components/ui/skeleton';
 	import type { ApplicationStatus } from '$lib/types';
+	import StatsBar from '$lib/components/jobs/StatsBar.svelte';
 
 	const statuses: (ApplicationStatus | 'All')[] = [
 		'All',
@@ -56,6 +57,8 @@
 		</div>
 		<Button onclick={() => (createDialogOpen = true)}>Add application</Button>
 	</div>
+
+	<StatsBar />
 
 	<div class="flex gap-3">
 		<Input
