@@ -2,7 +2,7 @@
     import { resolve } from '$app/paths';
     import type { JobSummary } from '$lib/types/jobs';
     import * as Card from '$lib/components/ui/card';
-    import { Badge } from '$lib/components/ui/badge';
+	import JobStatusBadge from './JobStatusBadge.svelte';
 
     let { job }: { job: JobSummary } = $props();
 </script>
@@ -15,7 +15,7 @@
                     <Card.Title class="text-base">{job.companyName}</Card.Title>
                     <Card.Description>{job.position}</Card.Description>
                 </div>
-                <Badge>{job.status}</Badge>
+                <JobStatusBadge status={job.status} />
             </div>
         </Card.Header>
         <Card.Footer class="text-muted-foreground text-xs">

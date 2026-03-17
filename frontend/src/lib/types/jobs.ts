@@ -43,6 +43,28 @@ export interface UpdateJobStatusRequest {
     newStatus: ApplicationStatus;
 }
 
+export interface AddInterviewRequest {
+    interviewType: InterviewType;
+    scheduledAt: string;
+    interviewNotes?: string | null;
+}
+
+export interface RecordInterviewOutcomeRequest {
+    newInterviewOutcome: InterviewOutcome;
+}
+
+export interface ChangeInterviewNotesRequest {
+    newInterviewNotes?: string | null;
+}
+
+export interface AddNoteRequest {
+    noteContent: string;
+}
+
+export interface ChangeNoteRequest {
+    newNoteContent: string;
+}
+
 export type ApplicationStatus =
     | 'Applied'
     | 'PhoneScreen'

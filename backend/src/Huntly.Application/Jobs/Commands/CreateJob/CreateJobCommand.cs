@@ -1,3 +1,4 @@
+using Huntly.Application.Shared.DTOs.Jobs;
 using MediatR;
 
 namespace Huntly.Application.Jobs.Commands.CreateJob;
@@ -9,4 +10,4 @@ public record CreateJobCommand(
     decimal? SalaryMin,
     decimal? SalaryMax,
     string? SalaryCurrency = "USD"
-) : IRequest<Guid>;
+) : IRequest<JobSummaryDto>;
