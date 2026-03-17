@@ -116,3 +116,10 @@ export function deleteNote(jobId: string, noteId: string) {
 		headers: authHeader()
 	});
 }
+
+export function seedJobs() {
+    return apiFetch<void>('/seed', {
+        method: 'POST',
+        headers: authHeader()
+    });
+}
