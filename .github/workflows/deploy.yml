@@ -1,0 +1,82 @@
+name: Deploy Frontend SvelteKit
+
+# 1. GATILHO
+on:
+  push:
+    branches:
+      - main
+
+# 2. PERMISSÕES (obrigatório para autenticação via OIDC na AWS)
+permissions:
+  id-token: write
+  contents: read
+
+# 3. TAREFAS
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Passo A: Baixa o código do repositório
+      - name: Checkout do código
+        uses: actions/checkout@v6
+
+      # Passo B.1: Instala pnpm (versão herdada do package.json)
+      - name: Instalar pnpm
+        uses: pnpm/action-setup@v5
+
+      # Passo B.2: Configura o Node.js com cache habilitado
+      - name: Configurar Node.js
+        uses: actions/setup-node@v6.3.0
+        with:
+          node-version: "24"
+          cache: "pnpm"
+
+      # Passo C: Instala dependências e compila o projeto
+      - name: Instalar dependências e fazer o Build
+        run: pnpm build
+        env:
+            PUBLIC_API_URL: ${{ secrets.PUBLIC_API_URL }}
+
+      # Passo D.1: Autentica na AWS usando tokens dinâmicos (OIDC)
+      - name: Configurar credenciais da AWS
+        uses: aws-actions/configure-aws-credentials@v6.1.0
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
+          aws-region: us-east-2 # Ajuste conforme a região da sua EC2
+
+      # Passo D.2: Identifica o IP público atual do Runner do GitHub
+      - name: Pegar IP do Runner
+        id: ip
+        run: echo "ipv4=$(curl -s https://checkip.amazonaws.com)" >> $GITHUB_OUTPUT
+
+      # Passo D.3: Abre a porta 22 no Firewall APENAS para o Runner
+      - name: Liberar IP no Security Group
+        run: |
+          aws ec2 authorize-security-group-ingress \
+            --group-id ${{ secrets.AWS_SG_ID }} \
+            --protocol tcp \
+            --port 22 \
+            --cidr ${{ steps.ip.outputs.ipv4 }}/32
+
+      # Passo E: Transfere os arquivos apagando os bundles antigos primeiro
+      - name: Copiar arquivos para a EC2 via SCP
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USERNAME }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          source: "./build/"
+          target: "/var/www/huntly-api"
+          strip_components: 3
+          rm: true
+
+      # Passo F: Fecha o Firewall (roda sempre, mesmo se um passo falhar)
+      - name: Revogar IP no Security Group
+        if: always()
+        run: |
+          aws ec2 revoke-security-group-ingress \
+            --group-id ${{ secrets.AWS_SG_ID }} \
+            --protocol tcp \
+            --port 22 \
+            --cidr ${{ steps.ip.outputs.ipv4 }}/32
