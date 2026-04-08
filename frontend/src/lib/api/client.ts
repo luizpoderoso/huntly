@@ -1,6 +1,6 @@
 import { PUBLIC_API_URL } from '$env/static/public';
 
-const BASE_URL = PUBLIC_API_URL ?? 'http://localhost:5163/api';
+const BASE_URL = PUBLIC_API_URL ?? '/api';
 
 interface FetchOptions extends RequestInit {
 	token?: string;
