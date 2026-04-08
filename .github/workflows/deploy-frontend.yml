@@ -1,0 +1,77 @@
+name: Deploy Frontend SvelteKit
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'frontend/**' # só se os arquivos de frontend mudarem
+
+permissions:
+  id-token: write
+  contents: read
+
+# 3. TAREFAS
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v6
+
+      - name: Instalar pnpm
+        uses: pnpm/action-setup@v5
+        with:
+            version: '10.33.0'
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v6.3.0
+        with:
+          node-version: "24"
+          cache: "pnpm"
+          cache-dependency-path: './frontend/pnpm-lock.yaml'
+
+      - name: Instalar dependências e fazer o Build
+        working-directory: './frontend'
+        run: pnpm build
+        env:
+            PUBLIC_API_URL: ${{ secrets.PUBLIC_API_URL }}
+
+      - name: Configurar credenciais da AWS
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
+          aws-region: us-east-2
+
+      - name: Pegar IP do Runner
+        id: ip
+        run: echo "ipv4=$(curl -s https://checkip.amazonaws.com)" >> $GITHUB_OUTPUT
+
+      - name: Liberar IP no Security Group
+        run: |
+          aws ec2 authorize-security-group-ingress \
+            --group-id ${{ secrets.AWS_SG_ID }} \
+            --protocol tcp \
+            --port 22 \
+            --cidr ${{ steps.ip.outputs.ipv4 }}/32
+
+      - name: Copiar arquivos para a EC2 via SCP
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USERNAME }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          source: "./build/"
+          target: "/var/www/huntly-panel"
+          strip_components: 2
+          rm: true
+
+      - name: Revogar IP no Security Group
+        if: always()
+        run: |
+          aws ec2 revoke-security-group-ingress \
+            --group-id ${{ secrets.AWS_SG_ID }} \
+            --protocol tcp \
+            --port 22 \
+            --cidr ${{ steps.ip.outputs.ipv4 }}/32
