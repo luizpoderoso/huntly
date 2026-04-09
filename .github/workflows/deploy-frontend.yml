@@ -34,7 +34,9 @@ jobs:
 
       - name: Instalar dependências e fazer o Build
         working-directory: './frontend'
-        run: pnpm build
+        run: |
+          pnpm install
+          pnpm build
         env:
             PUBLIC_API_URL: ${{ secrets.PUBLIC_API_URL }}
 
@@ -62,7 +64,7 @@ jobs:
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USERNAME }}
           key: ${{ secrets.EC2_SSH_KEY }}
-          source: "./build/"
+          source: "./frontend/build/"
           target: "/var/www/huntly-panel"
           strip_components: 2
           rm: true
