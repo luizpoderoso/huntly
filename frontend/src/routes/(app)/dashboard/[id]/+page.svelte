@@ -97,7 +97,7 @@
 			<AlertDialog.Root>
 				<AlertDialog.Trigger>
 					{#snippet child({ props })}
-						<Button variant="destructive" {...props}>Delete</Button>
+						<Button class="hover:cursor-pointer" variant="destructive" {...props}>Delete</Button>
 					{/snippet}
 				</AlertDialog.Trigger>
 				<AlertDialog.Content>
@@ -124,12 +124,14 @@
 				<div class="flex items-center gap-3">
 					<span class="w-24 text-sm text-muted-foreground">Status</span>
 					<Select.Root type="single" bind:value={selectedStatus} onValueChange={handleStatusChange}>
-						<Select.Trigger class="w-48">
+						<Select.Trigger class="w-48 hover:cursor-pointer">
 							{triggerContent}
 						</Select.Trigger>
 						<Select.Content>
 							{#each statuses as status (status)}
-								<Select.Item value={status}>{statusLabels[status]}</Select.Item>
+								<Select.Item class="hover:cursor-pointer" value={status}
+									>{statusLabels[status]}</Select.Item
+								>
 							{/each}
 						</Select.Content>
 					</Select.Root>
@@ -168,17 +170,19 @@
 
 		<Tabs.Root value="interviews">
 			<Tabs.List class="w-full">
-				<Tabs.Trigger value="interviews" class="flex-1">
+				<Tabs.Trigger value="interviews" class="flex-1 cursor-pointer aria-selected:cursor-auto">
 					Interviews ({job.interviews.length})
 				</Tabs.Trigger>
-				<Tabs.Trigger value="notes" class="flex-1">
+				<Tabs.Trigger value="notes" class="flex-1 cursor-pointer aria-selected:cursor-auto">
 					Notes ({job.notes.length})
 				</Tabs.Trigger>
 			</Tabs.List>
 
 			<Tabs.Content value="interviews" class="mt-4 flex flex-col gap-4">
 				<div class="flex justify-end">
-					<Button onclick={() => (addInterviewOpen = true)}>Add interview</Button>
+					<Button class="hover:cursor-pointer" onclick={() => (addInterviewOpen = true)}
+						>Add interview</Button
+					>
 				</div>
 				{#if job.interviews.length === 0}
 					<p class="py-6 text-center text-sm text-muted-foreground">No interviews yet.</p>
@@ -191,7 +195,8 @@
 
 			<Tabs.Content value="notes" class="mt-4 flex flex-col gap-4">
 				<div class="flex justify-end">
-					<Button onclick={() => (addNoteOpen = true)}>Add note</Button>
+					<Button class="hover:cursor-pointer" onclick={() => (addNoteOpen = true)}>Add note</Button
+					>
 				</div>
 				{#if job.notes.length === 0}
 					<p class="py-6 text-center text-sm text-muted-foreground">No notes yet.</p>

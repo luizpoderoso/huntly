@@ -56,7 +56,7 @@
 						<Button
 							variant="ghost"
 							size="sm"
-							class="text-destructive hover:text-destructive"
+							class="text-destructive hover:text-destructive hover:cursor-pointer"
 							{...props}
 						>
 							Delete
@@ -90,12 +90,12 @@
 				onValueChange={handleOutcomeChange}
 				disabled={interview.outcome !== 'Pending'}
 			>
-				<Select.Trigger class="w-40">
+				<Select.Trigger class="w-40 hover:cursor-pointer">
 					{outcomeTrigger}
 				</Select.Trigger>
 				<Select.Content>
 					{#each outcomes as outcome (outcome)}
-						<Select.Item value={outcome}>{outcome}</Select.Item>
+						<Select.Item class="hover:cursor-pointer" value={outcome}>{outcome}</Select.Item>
 					{/each}
 				</Select.Content>
 			</Select.Root>
@@ -105,7 +105,7 @@
 			<div class="flex items-center justify-between">
 				<span class="text-sm text-muted-foreground">Notes</span>
 				{#if !editingNotes}
-					<Button variant="ghost" size="sm" onclick={() => (editingNotes = true)}>Edit</Button>
+					<Button variant="ghost" size="sm" class="hover:cursor-pointer" onclick={() => (editingNotes = true)}>Edit</Button>
 				{/if}
 			</div>
 			{#if editingNotes}

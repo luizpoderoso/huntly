@@ -31,7 +31,12 @@
 			</Card.Description>
 			<div class="flex gap-1">
 				{#if !editing}
-					<Button variant="ghost" size="sm" onclick={() => (editing = true)}>Edit</Button>
+					<Button
+						class="hover:cursor-pointer"
+						variant="ghost"
+						size="sm"
+						onclick={() => (editing = true)}>Edit</Button
+					>
 				{/if}
 				<AlertDialog.Root>
 					<AlertDialog.Trigger>

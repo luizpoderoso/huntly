@@ -55,7 +55,9 @@
 					: ''}
 			</p>
 		</div>
-		<Button onclick={() => (createDialogOpen = true)}>Add application</Button>
+		<Button class="hover:cursor-pointer" onclick={() => (createDialogOpen = true)}
+			>Add application</Button
+		>
 	</div>
 
 	<StatsBar />
@@ -72,12 +74,12 @@
 			value={jobsStore.statusFilter}
 			onValueChange={(v) => (jobsStore.statusFilter = v as ApplicationStatus | 'All')}
 		>
-			<Select.Trigger class="w-48">
+			<Select.Trigger class="w-48 hover:cursor-pointer">
 				{filterTrigger}
 			</Select.Trigger>
 			<Select.Content>
 				{#each statuses as status (status)}
-					<Select.Item value={status}>{statusLabels[status]}</Select.Item>
+					<Select.Item class="hover:cursor-pointer" value={status}>{statusLabels[status]}</Select.Item>
 				{/each}
 			</Select.Content>
 		</Select.Root>

@@ -54,6 +54,7 @@
 
 			<Dialog.Footer>
 				<Button
+					class="hover:cursor-pointer"
 					type="button"
 					variant="outline"
 					onclick={() => {
@@ -63,7 +64,9 @@
 				>
 					Cancel
 				</Button>
-				<Button type="submit" disabled={!content.trim()}>Add note</Button>
+				<Button class="hover:cursor-pointer" type="submit" disabled={!content.trim()}
+					>Add note</Button
+				>
 			</Dialog.Footer>
 		</form>
 	</Dialog.Content>
