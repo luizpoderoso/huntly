@@ -1,6 +1,7 @@
 using System.Reflection;
 using FluentValidation;
 using Huntly.Application.Shared.Behaviors;
+using Mediator;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Huntly.Application;
@@ -11,14 +12,15 @@ public static class DependencyInjection
     {
         var assembly = Assembly.GetExecutingAssembly();
 
-        services.AddMediatR(cfg =>
+        services.AddMediator(options =>
         {
-            cfg.RegisterServicesFromAssembly(assembly);
-
-            cfg.AddOpenBehavior(typeof(LoggingBehavior<,>));
-            cfg.AddOpenBehavior(typeof(ValidationBehavior<,>));
-            cfg.AddOpenBehavior(typeof(PerformanceBehavior<,>));
+            options.ServiceLifetime = ServiceLifetime.Scoped;
+            options.NotificationPublisherType = typeof(ForeachAwaitPublisher);
         });
+        
+        services.AddScoped(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>));
+        services.AddScoped(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
+        services.AddScoped(typeof(IPipelineBehavior<,>), typeof(PerformanceBehavior<,>));
 
         services.AddValidatorsFromAssembly(assembly);
 

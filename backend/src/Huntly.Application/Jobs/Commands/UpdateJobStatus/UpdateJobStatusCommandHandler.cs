@@ -1,7 +1,7 @@
 using Huntly.Application.Shared.Exceptions;
 using Huntly.Application.Shared.Interfaces;
 using Huntly.Core.Jobs.Repositories;
-using MediatR;
+using Mediator;
 
 namespace Huntly.Application.Jobs.Commands.UpdateJobStatus;
 
@@ -11,7 +11,7 @@ public class UpdateJobStatusCommandHandler(
     IUserContext userContext) 
     : IRequestHandler<UpdateJobStatusCommand>
 {
-    public async Task Handle(UpdateJobStatusCommand command, CancellationToken ct)
+    public async ValueTask<Unit> Handle(UpdateJobStatusCommand command, CancellationToken ct)
     {
         var job = await repository.GetByIdAsync(command.JobId, ct);
 
@@ -21,5 +21,7 @@ public class UpdateJobStatusCommandHandler(
         job.UpdateStatus(command.NewStatus);
 
         await atomicWork.CommitAsync(ct);
+        
+        return Unit.Value;
     }
 }

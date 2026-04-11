@@ -4,7 +4,7 @@ using Huntly.Core.Jobs.Entities;
 using Huntly.Core.Jobs.Enums;
 using Huntly.Core.Jobs.Repositories;
 using Huntly.Core.Jobs.ValueObjects;
-using MediatR;
+using Mediator;
 
 namespace Huntly.Application.Seed;
 
@@ -12,9 +12,9 @@ public class SeedCommandHandler(
     IJobApplicationRepository repository,
     IAtomicWork atomicWork,
     IUserContext userContext)
-    : IRequestHandler<SeedCommand>
+    : IRequestHandler<SeedCommand, Unit>
 {
-    public async Task Handle(SeedCommand command, CancellationToken ct)
+    public async ValueTask<Unit> Handle(SeedCommand command, CancellationToken ct)
     {
         var count = await repository.CountByUserIdAsync(userContext.UserId, ct);
 
@@ -35,6 +35,8 @@ public class SeedCommandHandler(
         }
 
         await atomicWork.CommitAsync(ct);
+        
+        return Unit.Value;
     }
 
     private static List<JobApplication> BuildSeedData(Guid userId)

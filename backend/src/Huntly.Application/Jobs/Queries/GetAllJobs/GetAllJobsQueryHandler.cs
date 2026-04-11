@@ -1,7 +1,7 @@
 using Huntly.Application.Shared.DTOs.Jobs;
 using Huntly.Application.Shared.Interfaces;
 using Huntly.Core.Jobs.Repositories;
-using MediatR;
+using Mediator;
 
 namespace Huntly.Application.Jobs.Queries.GetAllJobs;
 
@@ -10,7 +10,7 @@ public class GetAllJobsQueryHandler(
     IUserContext userContext)
     : IRequestHandler<GetAllJobsQuery, IReadOnlyCollection<JobSummaryDto>>
 {
-    public async Task<IReadOnlyCollection<JobSummaryDto>> Handle(GetAllJobsQuery query, CancellationToken ct)
+    public async ValueTask<IReadOnlyCollection<JobSummaryDto>> Handle(GetAllJobsQuery query, CancellationToken ct)
     {
         var jobs = await repository.GetAllByUserIdAsync(userContext.UserId, ct);
 

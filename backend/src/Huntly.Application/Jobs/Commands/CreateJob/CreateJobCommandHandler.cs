@@ -3,7 +3,7 @@ using Huntly.Application.Shared.Interfaces;
 using Huntly.Core.Jobs.Entities;
 using Huntly.Core.Jobs.Repositories;
 using Huntly.Core.Jobs.ValueObjects;
-using MediatR;
+using Mediator;
 
 namespace Huntly.Application.Jobs.Commands.CreateJob;
 
@@ -13,7 +13,7 @@ public class CreateJobCommandHandler(
     IUserContext userContext)
     : IRequestHandler<CreateJobCommand, JobSummaryDto>
 {
-    public async Task<JobSummaryDto> Handle(CreateJobCommand command, CancellationToken ct)
+    public async ValueTask<JobSummaryDto> Handle(CreateJobCommand command, CancellationToken ct)
     {
         var job = JobApplication.Create(
             userId: userContext.UserId,

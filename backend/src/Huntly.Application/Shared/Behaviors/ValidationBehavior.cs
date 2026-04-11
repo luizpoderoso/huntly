@@ -1,5 +1,5 @@
 using FluentValidation;
-using MediatR;
+using Mediator;
 
 namespace Huntly.Application.Shared.Behaviors;
 
@@ -12,12 +12,12 @@ public class ValidationBehavior<TRequest, TResponse>
     public ValidationBehavior(IEnumerable<IValidator<TRequest>> validators)
         => _validators = validators;
 
-    public async Task<TResponse> Handle(
+    public async ValueTask<TResponse> Handle(
         TRequest request,
-        RequestHandlerDelegate<TResponse> next,
+        MessageHandlerDelegate<TRequest, TResponse> next,
         CancellationToken ct)
     {
-        if (!_validators.Any()) return await next(ct);
+        if (!_validators.Any()) return await next(request, ct);
 
         var context = new ValidationContext<TRequest>(request);
 
@@ -30,6 +30,6 @@ public class ValidationBehavior<TRequest, TResponse>
         if (failures.Count > 0)
             throw new ValidationException(failures);
 
-        return await next(ct);
+        return await next(request, ct);
     }
 }

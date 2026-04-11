@@ -1,5 +1,5 @@
 using System.Diagnostics;
-using MediatR;
+using Mediator;
 using Microsoft.Extensions.Logging;
 
 namespace Huntly.Application.Shared.Behaviors;
@@ -14,14 +14,14 @@ public class PerformanceBehavior<TRequest, TResponse>
     public PerformanceBehavior(ILogger<PerformanceBehavior<TRequest, TResponse>> logger)
         => _logger = logger;
 
-    public async Task<TResponse> Handle(
+    public async ValueTask<TResponse> Handle(
         TRequest request,
-        RequestHandlerDelegate<TResponse> next,
+        MessageHandlerDelegate<TRequest, TResponse> next,
         CancellationToken ct)
     {
         var stopwatch = Stopwatch.StartNew();
 
-        var response = await next(ct);
+        var response = await next(request, ct);
 
         stopwatch.Stop();
 

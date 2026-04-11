@@ -1,6 +1,6 @@
 using FastEndpoints;
 using Huntly.Application.Seed;
-using MediatR;
+using Mediator;
 
 namespace Huntly.Api.Endpoints.Seed;
 

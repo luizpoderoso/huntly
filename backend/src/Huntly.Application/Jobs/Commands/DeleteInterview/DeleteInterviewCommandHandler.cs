@@ -1,7 +1,7 @@
 using Huntly.Application.Shared.Exceptions;
 using Huntly.Application.Shared.Interfaces;
 using Huntly.Core.Jobs.Repositories;
-using MediatR;
+using Mediator;
 
 namespace Huntly.Application.Jobs.Commands.DeleteInterview;
 
@@ -11,7 +11,7 @@ public class DeleteInterviewCommandHandler(
     IUserContext userContext) 
     : IRequestHandler<DeleteInterviewCommand>
 {
-    public async Task Handle(DeleteInterviewCommand command, CancellationToken ct)
+    public async ValueTask<Unit> Handle(DeleteInterviewCommand command, CancellationToken ct)
     {
         var job = await repository.GetByIdAsync(command.JobApplicationId, ct);
         
@@ -24,5 +24,7 @@ public class DeleteInterviewCommandHandler(
             throw new NotFoundException("Interview not found.");
 
         await atomicWork.CommitAsync(ct);
+        
+        return Unit.Value;
     }
 }

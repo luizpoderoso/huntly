@@ -2,7 +2,7 @@ using Huntly.Application.Auth.DTOs;
 using Huntly.Application.Auth.Interfaces;
 using Huntly.Application.Shared.Exceptions;
 using Huntly.Core.Auth.Entities;
-using MediatR;
+using Mediator;
 using Microsoft.AspNetCore.Identity;
 
 namespace Huntly.Application.Auth.Commands.Login;
@@ -12,7 +12,7 @@ public class LoginCommandHandler(
     ITokenService tokenService)
     : IRequestHandler<LoginCommand, TokenResponseDto>
 {
-    public async Task<TokenResponseDto> Handle(LoginCommand command, CancellationToken ct)
+    public async ValueTask<TokenResponseDto> Handle(LoginCommand command, CancellationToken ct)
     {
         var user = await userManager.FindByEmailAsync(command.Email);
         if (user is null)

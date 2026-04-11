@@ -41,7 +41,7 @@ public class GetJobByIdQueryHandlerTests
         _repository.GetByIdAsync(jobId, Arg.Any<CancellationToken>()).Returns(job);
 
         // Act
-        var result = await _handler.Handle(command, CancellationToken.None);
+        var result = await _handler.Handle(command, CancellationToken.None).AsTask();
 
         // Assert
         Assert.That(result, Is.Not.Null);
@@ -61,7 +61,7 @@ public class GetJobByIdQueryHandlerTests
         _repository.GetByIdAsync(command.JobId, Arg.Any<CancellationToken>()).ReturnsNull();
 
         // Act & Assert
-        Assert.ThrowsAsync<NotFoundException>(() => _handler.Handle(command, CancellationToken.None));
+        Assert.ThrowsAsync<NotFoundException>(() => _handler.Handle(command, CancellationToken.None).AsTask());
     }
 
     [Test]
@@ -80,6 +80,6 @@ public class GetJobByIdQueryHandlerTests
         _repository.GetByIdAsync(jobId, Arg.Any<CancellationToken>()).Returns(job);
 
         // Act & Assert
-        Assert.ThrowsAsync<NotFoundException>(() => _handler.Handle(command, CancellationToken.None));
+        Assert.ThrowsAsync<NotFoundException>(() => _handler.Handle(command, CancellationToken.None).AsTask());
     }
 }

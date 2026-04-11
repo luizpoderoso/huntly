@@ -47,7 +47,7 @@ public class UpdateJobStatusCommandHandlerTests
         _repository.GetByIdAsync(jobId, Arg.Any<CancellationToken>()).Returns(job);
 
         // Act
-        await _handler.Handle(command, CancellationToken.None);
+        await _handler.Handle(command, CancellationToken.None).AsTask();
 
         // Assert
         Assert.That(job.Status, Is.EqualTo(ApplicationStatus.TechnicalInterview));
@@ -63,7 +63,7 @@ public class UpdateJobStatusCommandHandlerTests
         _repository.GetByIdAsync(command.JobId, Arg.Any<CancellationToken>()).ReturnsNull();
 
         // Act & Assert
-        Assert.ThrowsAsync<NotFoundException>(() => _handler.Handle(command, CancellationToken.None));
+        Assert.ThrowsAsync<NotFoundException>(() => _handler.Handle(command, CancellationToken.None).AsTask());
     }
 
     [Test]
@@ -82,6 +82,6 @@ public class UpdateJobStatusCommandHandlerTests
         _repository.GetByIdAsync(jobId, Arg.Any<CancellationToken>()).Returns(job);
 
         // Act & Assert
-        Assert.ThrowsAsync<NotFoundException>(() => _handler.Handle(command, CancellationToken.None));
+        Assert.ThrowsAsync<NotFoundException>(() => _handler.Handle(command, CancellationToken.None).AsTask());
     }
 }

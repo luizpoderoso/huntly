@@ -1,7 +1,7 @@
 using FastEndpoints;
 using Huntly.Application.Jobs.Commands.CreateJob;
 using Huntly.Application.Shared.DTOs.Jobs;
-using MediatR;
+using Mediator;
 
 namespace Huntly.Api.Endpoints.Jobs.CreateJob;
 

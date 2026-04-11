@@ -46,7 +46,7 @@ public class DeleteJobCommandHandlerTests
         _repository.GetByIdAsync(jobId, Arg.Any<CancellationToken>()).Returns(job);
 
         // Act
-        await _handler.Handle(command, CancellationToken.None);
+        await _handler.Handle(command, CancellationToken.None).AsTask();
 
         // Assert
         _repository.Received(1).Remove(job);
@@ -62,7 +62,7 @@ public class DeleteJobCommandHandlerTests
         _repository.GetByIdAsync(command.JobId, Arg.Any<CancellationToken>()).ReturnsNull();
 
         // Act & Assert
-        Assert.ThrowsAsync<NotFoundException>(() => _handler.Handle(command, CancellationToken.None));
+        Assert.ThrowsAsync<NotFoundException>(() => _handler.Handle(command, CancellationToken.None).AsTask());
     }
 
     [Test]
@@ -81,6 +81,6 @@ public class DeleteJobCommandHandlerTests
         _repository.GetByIdAsync(jobId, Arg.Any<CancellationToken>()).Returns(job);
 
         // Act & Assert
-        Assert.ThrowsAsync<NotFoundException>(() => _handler.Handle(command, CancellationToken.None));
+        Assert.ThrowsAsync<NotFoundException>(() => _handler.Handle(command, CancellationToken.None).AsTask());
     }
 }

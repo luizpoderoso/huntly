@@ -1,4 +1,4 @@
-using MediatR;
+using Mediator;
 using Microsoft.Extensions.Logging;
 
 namespace Huntly.Application.Shared.Behaviors;
@@ -12,14 +12,14 @@ public class LoggingBehavior<TRequest, TResponse>
     public LoggingBehavior(ILogger<LoggingBehavior<TRequest, TResponse>> logger)
         => _logger = logger;
 
-    public async Task<TResponse> Handle(
+    public async ValueTask<TResponse> Handle(
         TRequest request,
-        RequestHandlerDelegate<TResponse> next,
+        MessageHandlerDelegate<TRequest, TResponse> next,
         CancellationToken ct)
     {
         _logger.LogInformation("Handling {RequestName}", typeof(TRequest).Name);
 
-        var response = await next(ct);
+        var response = await next(request, ct);
 
         _logger.LogInformation("Handled {RequestName}", typeof(TRequest).Name);
 

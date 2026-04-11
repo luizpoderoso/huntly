@@ -41,7 +41,7 @@ public class GetAllJobsQueryHandlerTests
         _repository.GetAllByUserIdAsync(_userContext.UserId, Arg.Any<CancellationToken>()).Returns(jobList);
 
         // Act
-        var result = await _handler.Handle(command, CancellationToken.None);
+        var result = await _handler.Handle(command, CancellationToken.None).AsTask();
 
         // Assert
         Assert.That(result, Is.Not.Null);
@@ -65,7 +65,7 @@ public class GetAllJobsQueryHandlerTests
         _repository.GetAllByUserIdAsync(_userContext.UserId, Arg.Any<CancellationToken>()).Returns(new List<JobApplication>());
 
         // Act
-        var result = await _handler.Handle(command, CancellationToken.None);
+        var result = await _handler.Handle(command, CancellationToken.None).AsTask();
 
         // Assert
         Assert.That(result, Is.Not.Null);

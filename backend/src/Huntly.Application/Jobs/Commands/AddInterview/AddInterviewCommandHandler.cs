@@ -2,7 +2,7 @@ using Huntly.Application.Shared.DTOs.Jobs;
 using Huntly.Application.Shared.Exceptions;
 using Huntly.Application.Shared.Interfaces;
 using Huntly.Core.Jobs.Repositories;
-using MediatR;
+using Mediator;
 
 namespace Huntly.Application.Jobs.Commands.AddInterview;
 
@@ -12,7 +12,7 @@ public class AddInterviewCommandHandler(
     IAtomicWork atomicWork)
     : IRequestHandler<AddInterviewCommand, InterviewDto>
 {
-    public async Task<InterviewDto> Handle(AddInterviewCommand command, CancellationToken ct)
+    public async ValueTask<InterviewDto> Handle(AddInterviewCommand command, CancellationToken ct)
     {
         var job = await repository.GetByIdAsync(command.JobApplicationId, ct);
         

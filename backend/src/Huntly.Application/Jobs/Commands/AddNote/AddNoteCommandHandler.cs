@@ -2,7 +2,7 @@ using Huntly.Application.Shared.DTOs.Jobs;
 using Huntly.Application.Shared.Exceptions;
 using Huntly.Application.Shared.Interfaces;
 using Huntly.Core.Jobs.Repositories;
-using MediatR;
+using Mediator;
 
 namespace Huntly.Application.Jobs.Commands.AddNote;
 
@@ -12,7 +12,7 @@ public class AddNoteCommandHandler(
     IUserContext userContext)
     : IRequestHandler<AddNoteCommand, NoteDto>
 {
-    public async Task<NoteDto> Handle(AddNoteCommand command, CancellationToken ct)
+    public async ValueTask<NoteDto> Handle(AddNoteCommand command, CancellationToken ct)
     {
         var job = await repository.GetByIdAsync(command.JobApplicationId, ct);
 

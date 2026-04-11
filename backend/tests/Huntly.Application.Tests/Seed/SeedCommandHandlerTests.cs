@@ -34,7 +34,7 @@ public class SeedCommandHandlerTests
         var command = new SeedCommand();
         _repository.CountByUserIdAsync(_userContext.UserId, Arg.Any<CancellationToken>()).Returns(0);
 
-        await _handler.Handle(command, CancellationToken.None);
+        await _handler.Handle(command, CancellationToken.None).AsTask();
 
         await _repository.Received(10).AddAsync(Arg.Any<JobApplication>(), Arg.Any<CancellationToken>());
         await _atomicWork.Received(1).CommitAsync(Arg.Any<CancellationToken>());
@@ -46,7 +46,7 @@ public class SeedCommandHandlerTests
         var command = new SeedCommand();
         _repository.CountByUserIdAsync(_userContext.UserId, Arg.Any<CancellationToken>()).Returns(4);
 
-        await _handler.Handle(command, CancellationToken.None);
+        await _handler.Handle(command, CancellationToken.None).AsTask();
 
         await _repository.Received(10).AddAsync(Arg.Any<JobApplication>(), Arg.Any<CancellationToken>());
         await _atomicWork.Received(1).CommitAsync(Arg.Any<CancellationToken>());
@@ -58,7 +58,7 @@ public class SeedCommandHandlerTests
         var command = new SeedCommand();
         _repository.CountByUserIdAsync(_userContext.UserId, Arg.Any<CancellationToken>()).Returns(5);
 
-        var ex = Assert.ThrowsAsync<ConflictException>(() => _handler.Handle(command, CancellationToken.None));
+        var ex = Assert.ThrowsAsync<ConflictException>(() => _handler.Handle(command, CancellationToken.None).AsTask());
         Assert.That(ex.Message, Is.EqualTo("You already have data. Clear your applications before seeding."));
     }
 }

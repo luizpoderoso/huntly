@@ -1,7 +1,7 @@
 using Huntly.Application.Shared.Exceptions;
 using Huntly.Application.Shared.Interfaces;
 using Huntly.Core.Jobs.Repositories;
-using MediatR;
+using Mediator;
 
 namespace Huntly.Application.Jobs.Commands.ChangeInterviewNotes;
 
@@ -9,9 +9,9 @@ public class ChangeInterviewNotesCommandHandler(
     IJobApplicationRepository repository,
     IAtomicWork atomicWork,
     IUserContext userContext)
-    : IRequestHandler<ChangeInterviewNotesCommand>
+    : IRequestHandler<ChangeInterviewNotesCommand, Unit>
 {
-    public async Task Handle(ChangeInterviewNotesCommand command, CancellationToken ct)
+    public async ValueTask<Unit> Handle(ChangeInterviewNotesCommand command, CancellationToken ct)
     {
         var job = await repository.GetByIdAsync(command.JobApplicationId, ct);
         
@@ -24,5 +24,7 @@ public class ChangeInterviewNotesCommandHandler(
             throw new NotFoundException("Interview not found.");
 
         await atomicWork.CommitAsync(ct);
+        
+        return Unit.Value;
     }
 }

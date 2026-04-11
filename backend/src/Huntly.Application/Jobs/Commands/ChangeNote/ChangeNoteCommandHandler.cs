@@ -1,7 +1,7 @@
 using Huntly.Application.Shared.Exceptions;
 using Huntly.Application.Shared.Interfaces;
 using Huntly.Core.Jobs.Repositories;
-using MediatR;
+using Mediator;
 
 namespace Huntly.Application.Jobs.Commands.ChangeNote;
 
@@ -9,9 +9,9 @@ public class ChangeNoteCommandHandler(
     IJobApplicationRepository repository,
     IAtomicWork atomicWork,
     IUserContext userContext) 
-    : IRequestHandler<ChangeNoteCommand>
+    : IRequestHandler<ChangeNoteCommand, Unit>
 {
-    public async Task Handle(ChangeNoteCommand command, CancellationToken ct)
+    public async ValueTask<Unit> Handle(ChangeNoteCommand command, CancellationToken ct)
     {
         var job = await repository.GetByIdAsync(command.JobApplicationId, ct);
         
@@ -24,5 +24,7 @@ public class ChangeNoteCommandHandler(
             throw new NotFoundException("Note not found.");
 
         await atomicWork.CommitAsync(ct);
+        
+        return Unit.Value;
     }
 }

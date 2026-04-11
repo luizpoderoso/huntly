@@ -1,7 +1,7 @@
 using FastEndpoints;
 using Huntly.Application.Auth.Commands.Login;
 using Huntly.Application.Auth.DTOs;
-using MediatR;
+using Mediator;
 
 namespace Huntly.Api.Endpoints.Auth.Login;
 

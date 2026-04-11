@@ -1,5 +1,5 @@
 using Huntly.Application.Auth.DTOs;
-using MediatR;
+using Mediator;
 
 namespace Huntly.Application.Auth.Commands.Register;
 

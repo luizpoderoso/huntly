@@ -1,7 +1,7 @@
 using Huntly.Application.Shared.Exceptions;
 using Huntly.Application.Shared.Interfaces;
 using Huntly.Core.Jobs.Repositories;
-using MediatR;
+using Mediator;
 
 namespace Huntly.Application.Jobs.Commands.DeleteNote;
 
@@ -11,7 +11,7 @@ public class DeleteNoteCommandHandler(
     IUserContext userContext)
     : IRequestHandler<DeleteNoteCommand>
 {
-    public async Task Handle(DeleteNoteCommand command, CancellationToken ct)
+    public async ValueTask<Unit> Handle(DeleteNoteCommand command, CancellationToken ct)
     {
         var job = await repository.GetByIdAsync(command.JobApplicationId, ct);
         
@@ -24,5 +24,7 @@ public class DeleteNoteCommandHandler(
             throw new NotFoundException("Note not found.");
 
         await atomicWork.CommitAsync(ct);
+        
+        return Unit.Value;
     }
 }

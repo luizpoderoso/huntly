@@ -44,7 +44,7 @@ public class LoginCommandHandlerTests
         var expiresAt = DateTime.UtcNow.AddHours(2);
         _tokenService.GenerateToken(user).Returns(("valid-jwt-token", expiresAt));
 
-        var result = await _handler.Handle(command, CancellationToken.None);
+        var result = await _handler.Handle(command, CancellationToken.None).AsTask();
 
         Assert.That(result, Is.Not.Null);
         Assert.That(result.Token, Is.EqualTo("valid-jwt-token"));
@@ -59,7 +59,7 @@ public class LoginCommandHandlerTests
         
         _userManager.FindByEmailAsync(command.Email).ReturnsNull();
 
-        var ex = Assert.ThrowsAsync<UnauthorizedException>(() => _handler.Handle(command, CancellationToken.None));
+        var ex = Assert.ThrowsAsync<UnauthorizedException>(() => _handler.Handle(command, CancellationToken.None).AsTask());
         Assert.That(ex.Message, Is.EqualTo("Invalid credentials."));
     }
 
@@ -72,7 +72,7 @@ public class LoginCommandHandlerTests
         _userManager.FindByEmailAsync(command.Email).Returns(user);
         _userManager.CheckPasswordAsync(user, command.Password).Returns(false);
 
-        var ex = Assert.ThrowsAsync<UnauthorizedException>(() => _handler.Handle(command, CancellationToken.None));
+        var ex = Assert.ThrowsAsync<UnauthorizedException>(() => _handler.Handle(command, CancellationToken.None).AsTask());
         Assert.That(ex.Message, Is.EqualTo("Invalid credentials."));
     }
 }

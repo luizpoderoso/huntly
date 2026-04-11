@@ -2,7 +2,7 @@ using Huntly.Application.Shared.DTOs.Jobs;
 using Huntly.Application.Shared.Exceptions;
 using Huntly.Application.Shared.Interfaces;
 using Huntly.Core.Jobs.Repositories;
-using MediatR;
+using Mediator;
 
 namespace Huntly.Application.Jobs.Queries.GetJobById;
 
@@ -10,7 +10,7 @@ public class GetJobByIdQueryHandler(
     IJobApplicationRepository repository,
     IUserContext userContext) : IRequestHandler<GetJobByIdQuery, JobDetailDto>
 {
-    public async Task<JobDetailDto> Handle(GetJobByIdQuery query, CancellationToken ct)
+    public async ValueTask<JobDetailDto> Handle(GetJobByIdQuery query, CancellationToken ct)
     {
         var job = await repository.GetByIdAsync(query.JobId, ct);
         

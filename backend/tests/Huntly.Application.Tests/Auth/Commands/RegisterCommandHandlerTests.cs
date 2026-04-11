@@ -44,7 +44,7 @@ public class RegisterCommandHandlerTests
         var expiresAt = DateTime.UtcNow.AddHours(2);
         _tokenService.GenerateToken(Arg.Any<User>()).Returns(("new-jwt-token", expiresAt));
 
-        var result = await _handler.Handle(command, CancellationToken.None);
+        var result = await _handler.Handle(command, CancellationToken.None).AsTask();
 
         Assert.That(result, Is.Not.Null);
         Assert.That(result.Token, Is.EqualTo("new-jwt-token"));
@@ -60,7 +60,7 @@ public class RegisterCommandHandlerTests
 
         _userManager.FindByEmailAsync(command.Email).Returns(existingUser);
 
-        var ex = Assert.ThrowsAsync<ConflictException>(() => _handler.Handle(command, CancellationToken.None));
+        var ex = Assert.ThrowsAsync<ConflictException>(() => _handler.Handle(command, CancellationToken.None).AsTask());
         Assert.That(ex.Message, Is.EqualTo("Email is already registered."));
     }
 
@@ -73,7 +73,7 @@ public class RegisterCommandHandlerTests
         _userManager.FindByEmailAsync(command.Email).ReturnsNull();
         _userManager.FindByNameAsync(command.Username).Returns(existingUser);
 
-        var ex = Assert.ThrowsAsync<ConflictException>(() => _handler.Handle(command, CancellationToken.None));
+        var ex = Assert.ThrowsAsync<ConflictException>(() => _handler.Handle(command, CancellationToken.None).AsTask());
         Assert.That(ex.Message, Is.EqualTo("Username is already registered."));
     }
 
@@ -88,7 +88,7 @@ public class RegisterCommandHandlerTests
         var failedResult = IdentityResult.Failed(new IdentityError { Description = "Password too weak" });
         _userManager.CreateAsync(Arg.Any<User>(), command.Password).Returns(failedResult);
 
-        var ex = Assert.ThrowsAsync<Exception>(() => _handler.Handle(command, CancellationToken.None));
+        var ex = Assert.ThrowsAsync<Exception>(() => _handler.Handle(command, CancellationToken.None).AsTask());
         Assert.That(ex.Message, Is.EqualTo("Password too weak"));
     }
 }

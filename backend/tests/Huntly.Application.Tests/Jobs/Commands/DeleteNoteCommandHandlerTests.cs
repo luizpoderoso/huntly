@@ -41,7 +41,7 @@ public class DeleteNoteCommandHandlerTests
 
         _repository.GetByIdAsync(jobId, Arg.Any<CancellationToken>()).Returns(job);
 
-        await _handler.Handle(command, CancellationToken.None);
+        await _handler.Handle(command, CancellationToken.None).AsTask();
 
         Assert.That(job.Notes, Is.Empty);
         await _atomicWork.Received(1).CommitAsync(Arg.Any<CancellationToken>());
@@ -53,7 +53,7 @@ public class DeleteNoteCommandHandlerTests
         var command = new DeleteNoteCommand(Guid.NewGuid(), Guid.NewGuid());
         _repository.GetByIdAsync(command.JobApplicationId, Arg.Any<CancellationToken>()).ReturnsNull();
 
-        var ex = Assert.ThrowsAsync<NotFoundException>(() => _handler.Handle(command, CancellationToken.None));
+        var ex = Assert.ThrowsAsync<NotFoundException>(() => _handler.Handle(command, CancellationToken.None).AsTask());
         Assert.That(ex.Message, Is.EqualTo("Job application not found."));
     }
 
@@ -66,7 +66,7 @@ public class DeleteNoteCommandHandlerTests
         var job = JobApplication.Create(Guid.NewGuid(), new CompanyName("Other User's Job"), new Position("Dev"));
         _repository.GetByIdAsync(jobId, Arg.Any<CancellationToken>()).Returns(job);
 
-        var ex = Assert.ThrowsAsync<NotFoundException>(() => _handler.Handle(command, CancellationToken.None));
+        var ex = Assert.ThrowsAsync<NotFoundException>(() => _handler.Handle(command, CancellationToken.None).AsTask());
         Assert.That(ex.Message, Is.EqualTo("Job application not found."));
     }
 
@@ -79,7 +79,7 @@ public class DeleteNoteCommandHandlerTests
         var job = JobApplication.Create(_userContext.UserId, new CompanyName("Company A"), new Position("Dev"));
         _repository.GetByIdAsync(jobId, Arg.Any<CancellationToken>()).Returns(job);
 
-        var ex = Assert.ThrowsAsync<NotFoundException>(() => _handler.Handle(command, CancellationToken.None));
+        var ex = Assert.ThrowsAsync<NotFoundException>(() => _handler.Handle(command, CancellationToken.None).AsTask());
         Assert.That(ex.Message, Is.EqualTo("Note not found."));
     }
 }

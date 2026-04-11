@@ -1,6 +1,6 @@
 using Huntly.Application.Shared.DTOs.Jobs;
 using Huntly.Core.Jobs.Enums;
-using MediatR;
+using Mediator;
 
 namespace Huntly.Application.Jobs.Commands.AddInterview;
 

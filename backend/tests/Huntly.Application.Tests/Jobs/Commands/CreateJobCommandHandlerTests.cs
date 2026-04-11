@@ -43,7 +43,7 @@ public class CreateJobCommandHandlerTests
         );
 
         // Act
-        var result = await _handler.Handle(command, CancellationToken.None);
+        var result = await _handler.Handle(command, CancellationToken.None).AsTask();
 
         // Assert
         // Verify repository Add method was called with correctly mapped properties
@@ -84,7 +84,7 @@ public class CreateJobCommandHandlerTests
         );
 
         // Act
-        var result = await _handler.Handle(command, CancellationToken.None);
+        var result = await _handler.Handle(command, CancellationToken.None).AsTask();
 
         // Assert
         var capturedJob = (JobApplication) _repository.ReceivedCalls()

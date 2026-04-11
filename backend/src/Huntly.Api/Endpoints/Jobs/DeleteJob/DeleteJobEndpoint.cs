@@ -1,6 +1,6 @@
 using FastEndpoints;
 using Huntly.Application.Jobs.Commands.DeleteJob;
-using MediatR;
+using Mediator;
 
 namespace Huntly.Api.Endpoints.Jobs.DeleteJob;
 

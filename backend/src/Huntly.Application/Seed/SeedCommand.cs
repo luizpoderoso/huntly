@@ -1,4 +1,4 @@
-using MediatR;
+using Mediator;
 
 namespace Huntly.Application.Seed;
 
