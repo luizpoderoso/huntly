@@ -66,7 +66,7 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           source: "./frontend/build/"
           target: "/var/www/huntly-panel"
-          strip_components: 2
+          strip_components: 3
           rm: true
 
       - name: Revogar IP no Security Group

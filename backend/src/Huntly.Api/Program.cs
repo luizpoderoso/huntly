@@ -63,7 +63,7 @@ app.Run();
 
 return;
 
-async Task ApplyMigrations(WebApplication webApplication)
+static async Task ApplyMigrations(WebApplication webApplication)
 {
     using var scope = webApplication.Services.CreateScope();
     var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
