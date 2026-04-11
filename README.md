@@ -3,14 +3,14 @@
 A full-stack job application tracker built to demonstrate production-grade software engineering practices — Clean
 Architecture, CQRS, Domain-Driven Design patterns, and a modern reactive frontend.
 
-> **Live Demo:** [https://lp-huntly.netlify.app](https://lp-huntly.netlify.app)
+> **Live Demo:** [huntly.luizpoderoso.com](https://huntly.luizpoderoso.com)
 
-| Role            | Status       | Link                                                                             |
-|:----------------|:-------------|:---------------------------------------------------------------------------------|
-| **Frontend**    | 🟢 Live      | [lp-huntly.netlify.app](https://lp-huntly.netlify.app)                           |
-| **API Backend** | 🔵 Online    | [huntly-cgmd.onrender.com](https://huntly-cgmd.onrender.com)                     |
-| **API Docs**    | 📖 Scalar    | [huntly-cgmd.onrender.com/scalar/v1](https://huntly-cgmd.onrender.com/scalar/v1) |
-| **Database**    | ⚡ Serverless | [Neon.tech](https://neon.tech)                                                   |
+| Role         | Status       | Link                                                                           |
+|:-------------|:-------------|:-------------------------------------------------------------------------------|
+| **Frontend** | 🟢 Live      | [huntly.luizpoderoso.com](https://huntly.luizpoderoso.com)                     |
+| **Backend**  | 🟢 Live      | [huntly.luizpoderoso.com/api](https://huntly.luizpoderoso.com/api)             |
+| **API Docs** | 📖 Scalar    | [huntly.luizpoderoso.com/scalar/v1](https://huntly.luizpoderoso.com/scalar/v1) |
+| **Database** | ⚡ Serverless | [neon.tech](https://neon.tech)                                                 |
 
 > This is a portfolio project. The goal is not just a working app, but a codebase that reflects the kind of decisions
 > made in real, maintainable production systems.
@@ -32,7 +32,7 @@ application can have interviews and notes attached to it, and the status updates
 |---------------------------|---------------------------------------------------------------------------------------------------|
 | **.NET 10**               | Latest LTS, performance improvements, primary language expertise                                  |
 | **FastEndpoints**         | Replaces MVC controllers — thinner endpoints, better performance, explicit request/response types |
-| **MediatR**               | CQRS pipeline — commands and queries are decoupled from their handlers                            |
+| **Mediator**              | CQRS pipeline — commands and queries are decoupled from their handlers                            |
 | **EF Core + PostgreSQL**  | Mature ORM with strong migration tooling, PostgreSQL for production-grade relational storage      |
 | **ASP.NET Core Identity** | Industry-standard auth primitives without reinventing the wheel                                   |
 | **Argon2id**              | Replaces Identity's default PBKDF2 — memory-hard, resistant to GPU brute force attacks            |
@@ -67,7 +67,7 @@ other layer — the domain never knows about the database, HTTP, or any framewor
 ```
 
 `Api` references `Infra` only at the composition root — `Program.cs` calls `AddInfrastructure()` to wire up DI. Nothing
-else in `Api` (endpoints, middleware) ever touches `Infra` directly. Endpoints only talk to `Application` via MediatR.
+else in `Api` (endpoints, middleware) ever touches `Infra` directly. Endpoints only talk to `Application` via Mediator.
 
 `Infra` depends on both `Application` and `Core`, but for different reasons:
 
@@ -86,7 +86,7 @@ concern.
 `CompanyName`, `Position`, `JobUrl`, and `SalaryRange` are Value Objects, not strings and decimals. Rules are enforced
 at construction — if the object exists, it is valid. No scattered null checks or format validation across the codebase.
 
-**CQRS with MediatR pipeline behaviors**
+**CQRS with Mediator pipeline behaviors**
 Every use case is a `Command` or `Query` with a dedicated `Handler`. Cross-cutting concerns — validation, logging,
 performance monitoring — run as pipeline behaviors registered once, applied to every request automatically.
 
