@@ -4,7 +4,7 @@ namespace Huntly.Core.Auth.Entities;
 
 public sealed class User : IdentityUser<Guid>
 {
-    public string FullName { get; private set; }
+    public string FullName { get; private set; } = null!;
     public DateTime CreatedAt { get; private set; } = DateTime.UtcNow;
     public DateTime UpdatedAt { get; private set; } = DateTime.UtcNow;
 

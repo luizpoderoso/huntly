@@ -8,14 +8,14 @@ namespace Huntly.Core.Jobs.Entities;
 public sealed class JobApplication : AuditableEntity
 {
     public Guid UserId { get; private set; }
-    public CompanyName CompanyName { get; private set; }
-    public Position Position { get; private set; }
+    public CompanyName CompanyName { get; private set; } = null!;
+    public Position Position { get; private set; } = null!;
     public ApplicationStatus Status { get; private set; } = ApplicationStatus.Applied;
     public JobUrl? JobUrl { get; private set; }
     public SalaryRange? SalaryRange { get; private set; }
 
-    private readonly List<Interview> _interviews = new();
-    private readonly List<Note> _notes = new();
+    private readonly List<Interview> _interviews = [];
+    private readonly List<Note> _notes = [];
     public IReadOnlyCollection<Interview> Interviews => _interviews.AsReadOnly();
     public IReadOnlyCollection<Note> Notes => _notes.AsReadOnly();
 
