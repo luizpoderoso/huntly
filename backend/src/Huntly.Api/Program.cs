@@ -6,7 +6,6 @@ using Huntly.Api.Middleware;
 using Huntly.Application;
 using Huntly.Infra;
 using Huntly.Infra.Persistence.Context;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Scalar.AspNetCore;
 
